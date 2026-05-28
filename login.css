@@ -1,8 +1,38 @@
+/* ========================================== */
+/* 1. IMPORT FONT SF PRO DISPLAY              */
+/* ========================================== */
+/* Regular (400) */
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('../assets/fonts/SF-Pro-Display-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Semibold (600) */
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('../assets/fonts/SF-Pro-Display-Semibold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* Bold (700) */
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('../assets/fonts/SF-Pro-Display-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* ========================================== */
+/* 2. GLOBAL STYLES                           */
+/* ========================================== */
 *{
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 body{
@@ -12,8 +42,7 @@ body{
   background-position: bottom center;
   background-size: cover;
   min-height: 100vh;
-  overflow: hidden;
-  font-family: 'Poppins', sans-serif;
+  /* overflow: hidden; Dihapus agar di HP (layar kecil) bisa di-scroll ke bawah kalau mentok */
 }
 
 .container{
@@ -24,9 +53,10 @@ body{
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 20px; /* Tambahan padding agar card tidak nempel dengan pinggiran layar HP */
 }
 
-/* TOP */
+/* TOP LOGO */
 .top-logo{
   text-align: center;
   margin-bottom: 20px;
@@ -60,18 +90,22 @@ body{
   letter-spacing: 2px;
   color: #8e8e8e;
   margin-top: -2px;
+  font-weight: 600;
 }
 
-/* CARD */
+/* ========================================== */
+/* 3. LOGIN CARD MAIN WRAPPER                 */
+/* ========================================== */
 .login-card{
-  width: 560px;
+  width: 100%;             /* (RESPONSIVE FIX) Mengambil 100% lebar layar yang tersedia */
+  max-width: 560px;        /* (RESPONSIVE FIX) Tapi mentok berhenti di 560px jika dibuka di PC */
   padding: 20px 0;
   background: white;
   border-radius: 26px;
   box-shadow: 0 10px 35px rgba(0,0,0,0.05);
 }
 
-/* LEFT */
+/* LEFT / MAIN CONTENT */
 .left-content{
   width: 100%;
   padding: 40px;
@@ -81,6 +115,7 @@ body{
   font-size: 31px;
   color: #262626;
   margin-bottom: 8px;
+  font-weight: 700;
 }
 
 .subtitle{
@@ -88,16 +123,18 @@ body{
   line-height: 1.7;
   color: #8c8c8c;
   margin-bottom: 24px;
+  font-weight: 400;
 }
 
 label{
   display: block;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600;
   margin-bottom: 8px;
   color: #3c3c3c;
 }
 
+/* INPUT COMPONENT */
 .input-box{
   width: 100%;
   height: 46px;
@@ -107,6 +144,12 @@ label{
   align-items: center;
   padding: 0 14px;
   margin-bottom: 18px;
+  transition: border 0.3s ease;
+}
+
+/* Menambahkan efek warna saat input sedang diketik */
+.input-box:focus-within {
+  border-color: #6546d8;
 }
 
 .input-box i{
@@ -119,14 +162,17 @@ label{
   border: none;
   outline: none;
   width: 100%;
-  font-size: 13px;
+  font-size: 14px;
   color: #444;
+  font-family: 'SF Pro Display', sans-serif;
+  font-weight: 400;
 }
 
 .input-box input::placeholder{
   color: #b5b5b5;
 }
 
+/* PASSWORD EXTRAS */
 .password-top{
   display: flex;
   align-items: center;
@@ -137,7 +183,7 @@ label{
   font-size: 11px;
   text-decoration: none;
   color: #7654f6;
-  font-weight: 500;
+  font-weight: 600;
 }
 
 .checkbox-area{
@@ -150,14 +196,16 @@ label{
 .checkbox-area span{
   font-size: 12px;
   color: #7a7a7a;
+  font-weight: 400;
 }
 
 .checkbox-area input{
   width: 13px;
   height: 13px;
+  cursor: pointer;
 }
 
-/* BUTTON */
+/* SUBMIT BUTTON */
 .signin-btn{
   width: 100%;
   height: 46px;
@@ -166,16 +214,25 @@ label{
   background: linear-gradient(to right, #6546d8, #d9387f);
   color: white;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600;
   cursor: pointer;
   margin-bottom: 20px;
-  transition: 0.3s;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
 }
 
 .signin-btn:hover{
   opacity: 0.9;
+  box-shadow: 0 4px 15px rgba(101, 70, 216, 0.3);
 }
 
+.signin-btn:active{
+  transform: scale(0.97); /* Micro interaction: tombol ngempes sedikit saat di-klik */
+}
+
+/* ========================================== */
+/* 4. DIVIDER (RESPONSIVE REWRITE)            */
+/* ========================================== */
+/* [BUAT PRESENTASI]: "Sistem garis pembatas ini saya desain ulang menggunakan properti 'flex: 1' pada CSS. Jadi saat layar mengecil, garisnya akan mengalah dan merapat, tanpa merusak posisi tulisan di tengah." */
 .divider{
   display: flex;
   align-items: center;
@@ -183,31 +240,24 @@ label{
   margin-bottom: 18px;
 }
 
-.divider span{
-  font-size: 10px;
-  color: #8d8d8d;
-  position: relative;
-}
-
-.divider span::before,
-.divider span::after{
+.divider::before,
+.divider::after{
   content: "";
-  width: 95px;
+  flex: 1;               /* Membuat garis mengambil seluruh sisa ruang secara fleksibel */
   height: 1px;
   background: #e2e2e2;
-  position: absolute;
-  top: 50%;
 }
 
-.divider span::before{
-  left: -105px;
+.divider span{
+  font-size: 11px;
+  color: #8d8d8d;
+  font-weight: 500;
+  padding: 0 15px;       /* Memberi jarak nafas antara teks dan garis */
 }
 
-.divider span::after{
-  right: -105px;
-}
-
-/* FOOTER */
+/* ========================================== */
+/* 5. FOOTER & EXTRAS                         */
+/* ========================================== */
 .footer{
   margin-top: 18px;
   text-align: center;
@@ -224,11 +274,17 @@ label{
 .footer-links a{
   text-decoration: none;
   color: #6e6e6e;
-  font-size: 11px;
+  font-size: 12px;
+  font-weight: 600;
+  transition: 0.2s;
+}
+
+.footer-links a:hover{
+  color: #6546d8;
 }
 
 .footer p{
-  font-size: 10px;
+  font-size: 11px;
   color: #9d9d9d;
 }
 
@@ -246,5 +302,22 @@ label{
 }
 
 .toggle-pw:hover {
-  color: #c2185b !important;
+  color: #d9387f !important;
+}
+
+/* ========================================== */
+/* 6. RESPONSIVE MOBILE BREAKPOINT            */
+/* ========================================== */
+@media screen and (max-width: 576px) {
+  .left-content {
+    padding: 30px 24px; /* Mengurangi padding kanan-kiri di layar HP */
+  }
+
+  .left-content h2 {
+    font-size: 26px; /* Mengecilkan judul di HP */
+  }
+
+  .login-card {
+    border-radius: 20px;
+  }
 }
