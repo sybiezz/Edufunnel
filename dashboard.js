@@ -19,7 +19,8 @@ let perfChart2025 = null;
 // ==========================================
 async function initDashboard() {
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) { window.location.href = '../login/login.html'; return; }
+  // Perbaikan: Menggunakan path absolut /login
+  if (!user) { window.location.href = '/login'; return; }
 
   // Sync Data Profil User di Navbar
   const profileName = document.querySelector('.profile span');
