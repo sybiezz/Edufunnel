@@ -1,0 +1,250 @@
+*{
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body{
+  background-color: #f5f1f7;
+  background-image: url("background login.png");
+  background-repeat: no-repeat;
+  background-position: bottom center;
+  background-size: cover;
+  min-height: 100vh;
+  overflow: hidden;
+  font-family: 'Poppins', sans-serif;
+}
+
+.container{
+  position: relative;
+  width: 100%;
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+}
+
+/* TOP */
+.top-logo{
+  text-align: center;
+  margin-bottom: 20px;
+  z-index: 2;
+}
+
+.logo-box{
+  width: 44px;
+  height: 44px;
+  background: #ffffff;
+  border-radius: 12px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin: 0 auto 12px;
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+}
+
+.logo-box img{
+  width: 22px;
+}
+
+.top-logo h1{
+  font-size: 20px;
+  font-weight: 700;
+  color: #1e1e1e;
+}
+
+.top-logo p{
+  font-size: 10px;
+  letter-spacing: 2px;
+  color: #8e8e8e;
+  margin-top: -2px;
+}
+
+/* CARD */
+.login-card{
+  width: 560px;
+  padding: 20px 0;
+  background: white;
+  border-radius: 26px;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.05);
+}
+
+/* LEFT */
+.left-content{
+  width: 100%;
+  padding: 40px;
+}
+
+.left-content h2{
+  font-size: 31px;
+  color: #262626;
+  margin-bottom: 8px;
+}
+
+.subtitle{
+  font-size: 15px;
+  line-height: 1.7;
+  color: #8c8c8c;
+  margin-bottom: 24px;
+}
+
+label{
+  display: block;
+  font-size: 12px;
+  font-weight: 500;
+  margin-bottom: 8px;
+  color: #3c3c3c;
+}
+
+.input-box{
+  width: 100%;
+  height: 46px;
+  border: 1px solid #d8d8d8;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  padding: 0 14px;
+  margin-bottom: 18px;
+}
+
+.input-box i{
+  color: #9b9b9b;
+  font-size: 14px;
+  margin-right: 10px;
+}
+
+.input-box input{
+  border: none;
+  outline: none;
+  width: 100%;
+  font-size: 13px;
+  color: #444;
+}
+
+.input-box input::placeholder{
+  color: #b5b5b5;
+}
+
+.password-top{
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+}
+
+.password-top a{
+  font-size: 11px;
+  text-decoration: none;
+  color: #7654f6;
+  font-weight: 500;
+}
+
+.checkbox-area{
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  margin-bottom: 20px;
+}
+
+.checkbox-area span{
+  font-size: 12px;
+  color: #7a7a7a;
+}
+
+.checkbox-area input{
+  width: 13px;
+  height: 13px;
+}
+
+/* BUTTON */
+.signin-btn{
+  width: 100%;
+  height: 46px;
+  border: none;
+  border-radius: 10px;
+  background: linear-gradient(to right, #6546d8, #d9387f);
+  color: white;
+  font-size: 14px;
+  font-weight: 500;
+  cursor: pointer;
+  margin-bottom: 20px;
+  transition: 0.3s;
+}
+
+.signin-btn:hover{
+  opacity: 0.9;
+}
+
+.divider{
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  margin-bottom: 18px;
+}
+
+.divider span{
+  font-size: 10px;
+  color: #8d8d8d;
+  position: relative;
+}
+
+.divider span::before,
+.divider span::after{
+  content: "";
+  width: 95px;
+  height: 1px;
+  background: #e2e2e2;
+  position: absolute;
+  top: 50%;
+}
+
+.divider span::before{
+  left: -105px;
+}
+
+.divider span::after{
+  right: -105px;
+}
+
+/* FOOTER */
+.footer{
+  margin-top: 18px;
+  text-align: center;
+  z-index: 2;
+}
+
+.footer-links{
+  display: flex;
+  gap: 22px;
+  justify-content: center;
+  margin-bottom: 10px;
+}
+
+.footer-links a{
+  text-decoration: none;
+  color: #6e6e6e;
+  font-size: 11px;
+}
+
+.footer p{
+  font-size: 10px;
+  color: #9d9d9d;
+}
+
+/* --- FITUR SHOW/HIDE PASSWORD --- */
+.input-box input {
+  flex: 1; /* Ngedorong ikon mata ke ujung kanan */
+}
+
+.toggle-pw {
+  margin-right: 0 !important;
+  cursor: pointer;
+  transition: 0.2s;
+  font-size: 15px !important;
+  color: #9b9b9b;
+}
+
+.toggle-pw:hover {
+  color: #c2185b !important;
+}

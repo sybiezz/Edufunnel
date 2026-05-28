@@ -1,0 +1,100 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>AdmissionsHub</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
+  <link rel="stylesheet" href="login.css">
+
+  <link rel="stylesheet"
+  href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</head>
+
+<body>
+
+  <div class="container">
+
+    <div class="top-logo">
+
+      <div class="logo-box">
+        <img
+        src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png"
+        alt="logo">
+      </div>
+
+      <h2>AdmissionsHub</h2>
+      <p>STAFF PORTAL</p>
+
+    </div>
+
+    <div class="login-card">
+
+      <div class="left-content">
+
+        <h2>Welcome back</h2>
+
+        <p class="subtitle">
+          Please enter your university credentials to continue to the dashboard.
+        </p>
+
+        <label>Email</label>
+
+        <div class="input-box">
+          <i class="fa-regular fa-user"></i>
+          <input type="email" id="username" placeholder="e.g. evlyn@edufunnel.com" required>
+        </div>
+
+        <div class="password-top">
+          <label>Password</label>
+        </div>
+
+        <div class="input-box">
+          <i class="fa-solid fa-lock"></i>
+          <input type="password" id="password" placeholder="Min. 8 characters" required>
+        </div>
+
+        <div class="checkbox-area">
+          <input type="checkbox">
+          <span>Stay signed in for 7 days</span>
+        </div>
+
+        <button class="signin-btn" id="loginBtn">
+          Sign In
+        </button>
+
+        <p style="text-align: center; margin-top: 15px; font-size: 13px; color: #8c8c8c;">
+          Don't have an account?
+          <a href="../signup/signup.html"
+            style="color: #d9387f; text-decoration: none; font-weight: 600;">
+            Sign Up here
+          </a>
+        </p>
+
+      </div>
+
+    </div>
+
+    <div class="footer">
+
+      <div class="footer-links">
+        <a href="#">Security Policy</a>
+        <a href="#">IT Support</a>
+        <a href="#">Privacy</a>
+      </div>
+
+      <p>
+        © 2026 University Admissions Hub. Authorized Personnel Only.
+      </p>
+    </div>
+
+  </div>
+  
+  <script type="module" src="login.js"></script>
+</body>
+</html>

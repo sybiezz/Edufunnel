@@ -1,0 +1,190 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admissions Pro Dashboard</title>
+
+  <link rel="stylesheet" href="dashboard.css">
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=300;400;500;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+
+  <script src="https://cdn.jsdelivr.net/npm/chart.js"></script> 
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="logo">
+      Admissions <span>Pro</span>
+    </div>
+
+    <div class="nav-links">
+      <a class="active" href="dashboard.html">Dashboard</a>
+      <a href="../listdata/listdata.html">List Data</a>
+    </div>
+
+    <a href="../profile/profile.html" class="profile" style="text-decoration: none; color: inherit; cursor: pointer;">
+      <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="profile" id="nav-avatar" style="width: 35px !important; height: 35px !important; object-fit: cover !important; border-radius: 50%; object-position: center;">
+      <span id="nav-name">Loading...</span>
+    </a>
+  </nav>
+
+  <main class="dashboard">
+
+    <div class="top-section">
+      <div>
+        <h1>Dashboard</h1>
+        <p>
+          <span class="dot"></span>
+          Real-time performance
+        </p>
+      </div>
+
+      <div class="actions">
+        <select class="filter-select" id="sourceFilter">
+          <option value="all" selected>All Traffic Source</option>
+          <option value="instagram">Instagram</option>
+          <option value="tiktok">TikTok</option>
+        </select>
+
+        <select class="filter-select" id="yearFilter">
+          <option value="2024" selected>Periode 2024</option>
+          <option value="2025">Periode 2025</option>
+        </select>
+
+        <button class="export-btn">
+          <i class="fa-solid fa-download"></i>
+          EXPORT REPORT
+        </button>
+      </div>
+    </div>
+
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="top-card">
+          <span>TOTAL VISITORS</span>
+          <div class="badge" id="visitor-growth">Loading...</div>
+        </div>
+        <h2 id="visitor-count">...</h2>
+        <p>
+          Instagram: <span id="ig-visitors">...</span> ・ TikTok: <span id="tiktok-visitors">...</span>
+        </p>
+      </div>
+
+      <div class="stat-card">
+        <div class="top-card">
+          <span>BEST TRAFFIC SOURCE</span>
+          <div class="badge pink">INSTAGRAM</div>
+        </div>
+        <h2 id="best-source-pct">51.52%</h2>
+      </div>
+
+      <div class="stat-card pink-border">
+        <div class="top-card">
+          <span>AVG. CONVERSION PROBABILITY</span>
+        </div>
+        <h2 id="avg-conversion">...</h2>
+      </div>
+    </div>
+
+    <div class="content-grid">
+
+      <div class="funnel-card">
+        <div class="card-header">
+          <h3>Admissions Funnel</h3>
+          <i class="fa-solid fa-ellipsis"></i>
+        </div>
+        <div style="position: relative; height: 380px; width: 100%;">
+          <canvas id="funnelChartCanvas"></canvas>
+        </div>
+      </div>
+
+      <div class="analysis-card">
+        <h2>Conversion & Attrition Analysis per Stage</h2>
+        
+        <div style="position: relative; height: 320px; width: 100%; margin-top: 15px;">
+          <canvas id="analysisBarChartCanvas"></canvas>
+        </div>
+
+        <div class="worst-title">WORST DROP-OFF</div>
+        <div class="warning-box">
+          <div class="warning-icon"><i class="fa-solid fa-triangle-exclamation"></i></div>
+          <span id="worst-dropoff-text">Calculating...</span>
+        </div>
+      </div>
+
+    </div>
+
+    <div class="bottom-grid">
+      
+      <div class="table-card">
+        <h2>Source Performance</h2>
+        <table>
+          <thead>
+            <tr>
+              <th>Sumber</th><th>Pengunjung</th><th>Berkuliah</th><th>Conv. %</th><th>Attrition %</th>
+            </tr>
+          </thead>
+          <tbody id="table-body-stats">
+            </tbody>
+        </table>
+        <div class="performance-note">
+          <div class="note-line"></div>
+          <p>TikTok Ads konversi lebih stabil meski trafik lebih kecil</p>
+        </div>
+      </div>
+
+      <div class="contribution-card">
+        <h2>Source Conversion Contribution</h2>
+        <div style="position: relative; height: 250px; width: 100%; margin-top: 30px;">
+          <canvas id="contributionDonutChartCanvas"></canvas>
+        </div>
+      </div>
+
+    </div> 
+
+    <div class="performance-grid">
+      
+      <div class="performance-card">
+        <div class="performance-top" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h3 style="font-size: 20px; font-weight: 700;">2024 Performance</h3>
+          <div class="performance-labels" style="display: flex; gap: 14px; font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 500;">
+            <div class="performance-label" style="display: flex; align-items: center; gap: 6px;"><span class="performance-dot purple" style="width: 8px; height: 8px; background: #6f49d8; border-radius: 50%; display: inline-block;"></span>Failure</div>
+            <div class="performance-label" style="display: flex; align-items: center; gap: 6px;"><span class="performance-dot pink" style="width: 8px; height: 8px; background: #cf3b84; border-radius: 50%; display: inline-block;"></span>Success</div>
+          </div>
+        </div>
+
+        <div style="position: relative; height: 260px; width: 100%;">
+          <canvas id="perfChartCanvas2024"></canvas>
+        </div>
+      </div>
+
+      <div class="performance-card">
+        <div class="performance-top" style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 20px;">
+          <h3 style="font-size: 20px; font-weight: 700;">2025 Performance</h3>
+          <div class="performance-labels" style="display: flex; gap: 14px; font-family: 'Poppins', sans-serif; font-size: 12px; font-weight: 500;">
+            <div class="performance-label" style="display: flex; align-items: center; gap: 6px;"><span class="performance-dot purple" style="width: 8px; height: 8px; background: #6f49d8; border-radius: 50%; display: inline-block;"></span>Failure</div>
+            <div class="performance-label" style="display: flex; align-items: center; gap: 6px;"><span class="performance-dot pink" style="width: 8px; height: 8px; background: #cf3b84; border-radius: 50%; display: inline-block;"></span>Success</div>
+          </div>
+
+        </div>
+        <div style="position: relative; height: 260px; width: 100%;">
+          <canvas id="perfChartCanvas2025"></canvas>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <span class="footer-logo">AdmissionsPro</span>
+      <span class="footer-copy">© 2026 Funnel Analytics Platform</span>
+    </div>
+  </footer>
+
+  <script type="module" src="dashboard.js"></script>
+</body>
+</html>

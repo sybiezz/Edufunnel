@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Profile Settings - AdmissionsHub</title>
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+  
+  <link rel="stylesheet" href="profile.css?v=1002">
+</head>
+<body>
+
+  <nav class="navbar">
+    <div class="logo">
+      Admissions <span>Pro</span>
+    </div>
+    
+    <div class="nav-links">
+      <a href="../dashboard/dashboard.html">Dashboard</a>
+      <a href="../listdata/listdata.html">List Data</a>
+    </div>
+    
+    <a href="profile.html" class="profile-nav" style="text-decoration: none; color: inherit; cursor: pointer;">
+      <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="profile" id="nav-avatar" style="object-fit: cover; object-position: center;">
+      <span id="nav-name">Loading...</span>
+    </a>
+  </nav>
+
+  <main class="profile-container">
+    <div class="profile-card">
+      
+      <div class="profile-header">
+        <div class="avatar-container" onclick="document.getElementById('file-upload').click()">
+          <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="Profile Picture" id="preview-avatar" class="avatar-large" style="object-fit: cover !important; object-position: center !important;">
+          <div class="camera-icon">
+            <i class="fa-solid fa-camera"></i>
+          </div>
+          <input type="file" id="file-upload" accept="image/*" style="display: none;">
+        </div>
+        
+        <div class="profile-info">
+          <h2 id="display-name">User Name</h2>
+          <p id="display-email">user@email.com</p>
+        </div>
+      </div>
+
+      <div class="divider"></div>
+
+      <div class="form-section">
+        <h3>Account Settings</h3>
+        <p class="subtitle">Update your personal details.</p>
+
+        <label>Full Name</label>
+        <div class="input-box">
+          <i class="fa-regular fa-id-badge"></i>
+          <input type="text" id="edit-name" placeholder="Enter your full name">
+        </div>
+
+        <h3 style="margin-top: 30px;">Change Password</h3>
+        <p class="subtitle">Leave blank if you don't want to change your password.</p>
+
+        <label>Old Password</label>
+        <div class="input-box">
+          <i class="fa-solid fa-unlock-keyhole"></i>
+          <input type="password" id="old-password" placeholder="Enter current password">
+          <i class="fa-solid fa-eye-slash toggle-pw"></i>
+        </div>
+
+        <label>New Password</label>
+        <div class="input-box">
+          <i class="fa-solid fa-lock"></i>
+          <input type="password" id="new-password" placeholder="Enter new password">
+          <i class="fa-solid fa-eye-slash toggle-pw"></i>
+        </div>
+
+        <label>Confirm New Password</label>
+        <div class="input-box">
+          <i class="fa-solid fa-circle-check"></i>
+          <input type="password" id="confirm-password" placeholder="Re-enter new password">
+          <i class="fa-solid fa-eye-slash toggle-pw"></i>
+        </div>
+
+        <button class="save-btn" id="saveProfileBtn">Save Changes</button>
+        <button class="logout-btn" id="logoutBtn">Log Out</button>
+      </div>
+
+    </div>
+  </main>
+
+  <script type="module" src="profile.js?v=1002"></script>
+</body>
+</html>

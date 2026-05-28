@@ -1,0 +1,332 @@
+/* ==========================================
+   1. GLOBAL & RESET STYLES
+   ========================================== */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+body {
+  background-color: #faf5fd; /* Samakan background soft purple dgn dashboard */
+  color: #222;
+}
+
+/* ==========================================
+   2. NAVBAR (SINKRON 100% DENGAN DASHBOARD.CSS)
+   ========================================== */
+.navbar {
+  width: 100%;
+  height: 70px;
+  background: white;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0 28px;
+  box-shadow: 0 2px 10px rgba(0,0,0,0.04);
+  position: sticky;
+  top: 0;
+  z-index: 100; /* Naikkan z-index agar aman saat di-scroll */
+}
+
+.logo {
+  font-size: 28px;
+  font-weight: 700;
+}
+
+.logo span {
+  color: #b13cff;
+}
+
+.nav-links {
+  display: flex;
+  gap: 50px;
+}
+
+.nav-links a {
+  text-decoration: none;
+  color: #555;
+  font-weight: 500;       
+  font-size: 16px;        
+  padding-bottom: 6px;    
+  transition: color 0.2s ease;
+}
+
+.nav-links a:hover {
+  color: #7f3fff;
+}
+
+.nav-links .active {
+  color: #7f3fff;
+  border-bottom: 3px solid #7f3fff;
+}
+
+.profile-nav {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.profile-nav img {
+  width: 42px;    
+  height: 42px;   
+  border-radius: 50%;
+  object-fit: cover;
+}
+
+.profile-nav span {
+  font-weight: 700;       /* FIXED SINKRON: Set ke 700 sesuai notes lo biar Bold! */
+  font-size: 15px;        
+  color: #333;
+}
+
+/* ==========================================
+   3. PROFILE CONTAINER & CARD
+   ========================================== */
+.profile-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  min-height: calc(100vh - 70px); 
+  padding: 40px 20px;
+}
+
+.profile-card {
+  width: 100%;
+  max-width: 600px;
+  background: white;
+  border-radius: 22px;
+  padding: 40px;
+  box-shadow: 0 6px 20px rgba(0,0,0,0.04);
+}
+
+.profile-header {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  text-align: center;
+  margin-bottom: 25px;
+}
+
+/* ==========================================
+   4. AVATAR UPLOAD ELEMENT
+   ========================================== */
+.avatar-container {
+  position: relative;
+  display: inline-block;
+  cursor: pointer;
+  margin-bottom: 15px;
+}
+
+.avatar-large {
+  width: 90px;
+  height: 90px;
+  border-radius: 50%;
+  object-fit: cover;
+  border: 3px solid #f6f1fb;
+  transition: filter 0.3s ease;
+}
+
+.avatar-container:hover .avatar-large {
+  filter: brightness(0.8);
+}
+
+.camera-icon {
+  position: absolute;
+  bottom: 0;
+  right: 0;
+  background: #cf3b84; 
+  color: white;
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 14px;
+  border: 3px solid white;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.avatar-container:hover .camera-icon {
+  transform: scale(1.15);
+  background: #6f49d8; 
+}
+
+.profile-info h2 { 
+  font-size: 24px; 
+  color: #111; 
+  font-weight: 700;
+}
+
+.profile-info p { 
+  font-size: 14px; /* Fixed: Dari 20px dikecilkan ke 14px agar proporsional sebagai sub-text email */
+  color: #777; 
+}
+
+.divider { 
+  width: 100%; 
+  height: 1px; 
+  background: #f2f2f2; 
+  margin: 25px 0; 
+}
+
+/* ==========================================
+   5. FORM INTERFACE ELEMENTS
+   ========================================== */
+.form-section h3 { 
+  font-size: 20px; 
+  color: #111; 
+  font-weight: 700;
+  margin-bottom: 4px; 
+}
+
+.subtitle { 
+  font-size: 13px; 
+  color: #888; 
+  margin-bottom: 20px; 
+}
+
+label { 
+  display: block; 
+  font-size: 12px; 
+  font-weight: 600; 
+  margin-bottom: 8px; 
+  color: #444; 
+}
+
+.input-box {
+  width: 100%; 
+  height: 48px; 
+  border: 1px solid #e2dcf0; 
+  border-radius: 12px;
+  display: flex; 
+  align-items: center; 
+  padding: 0 16px; 
+  margin-bottom: 20px;
+  background-color: #fff;
+  transition: border-color 0.2s ease;
+}
+
+.input-box:focus-within {
+  border-color: #7048ff; 
+}
+
+.input-box i { 
+  color: #9b9b9b; 
+  font-size: 14px; 
+  margin-right: 12px; 
+}
+
+.input-box input { 
+  border: none; 
+  outline: none; 
+  font-size: 14px; 
+  color: #333; 
+  flex: 1; 
+  background: transparent;
+}
+
+.toggle-pw { 
+  margin-right: 0 !important; 
+  cursor: pointer; 
+  transition: color 0.2s ease; 
+  font-size: 16px !important;
+}
+
+.toggle-pw:hover { 
+  color: #cf3b84 !important; 
+}
+
+/* ==========================================
+   6. SUBMISSION BUTTONS EFFECT
+   ========================================== */
+.save-btn {
+  width: 100%; 
+  height: 50px; 
+  border: none; 
+  border-radius: 14px;
+  background: linear-gradient(to right, #7048ff, #cf3b84)!important; 
+  color: white;
+  font-size: 14px; 
+  font-weight: 600; 
+  cursor: pointer; 
+  margin-top: 15px; 
+  user-select: none;
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+}
+
+.save-btn:hover { 
+  filter: brightness(1.1);
+  box-shadow: 0 6px 20px rgba(207, 59, 132, 0.25);
+  transform: translateY(-2px);
+}
+
+.save-btn:active {
+  transform: translateY(0) scale(0.97);
+}
+
+.logout-btn {
+  width: 100%; 
+  height: 50px; 
+  border: 1px solid #dc3545; 
+  border-radius: 14px;
+  background: transparent; 
+  color: #dc3545;
+  font-size: 14px; 
+  font-weight: 600; 
+  cursor: pointer; 
+  margin-top: 12px; 
+  transition: all 0.2s ease;
+}
+
+.logout-btn:hover {
+  background: #dc3545;
+  color: white;
+  box-shadow: 0 4px 12px rgba(220, 53, 69, 0.2);
+  transform: translateY(-1px);
+}
+
+.logout-btn:active {
+  transform: translateY(0) scale(0.98);
+}
+
+/* ==========================================
+   7. RESPONSIVE BREAKPOINTS (MEDIA QUERIES SYSTEM)
+   ========================================== */
+@media screen and (max-width: 1100px) {
+  /* Sinkronisasi total susunan Navbar runtuh vertikal */
+  .navbar {
+    padding: 16px;
+    flex-direction: column;
+    height: auto;
+    gap: 16px;
+  }
+  
+  .nav-links { 
+    gap: 20px; 
+  }
+  
+  /* Kurangi padding container luar biar space card meluas */
+  .profile-container {
+    padding: 20px 14px;
+    min-height: calc(100vh - 140px);
+  }
+}
+
+@media screen and (max-width: 768px) {
+  /* Mengurangi padding super ketat di dalam card settings agar input box tidak tercekik */
+  .profile-card {
+    padding: 28px 20px;
+    border-radius: 18px;
+  }
+  
+  .profile-info h2 {
+    font-size: 20px;
+  }
+  
+  .form-section h3 {
+    font-size: 18px;
+  }
+}

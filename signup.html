@@ -1,0 +1,74 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Sign Up - AdmissionsHub</title>
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="signup.css?v=3">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</head>
+<body>
+  <div class="container">
+
+    <div class="top-logo">
+      <div class="logo-box">
+        <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="logo">
+      </div>
+      <h2>AdmissionsHub</h2>
+      <p>STAFF PORTAL</p>
+    </div>
+
+    <div class="login-card">
+      
+      <div class="left-content">
+        <h2>Create an Account</h2>
+        <p class="subtitle" style="margin-bottom: 25px;">Register to access the Admissions Dashboard.</p>
+
+        <label>Full Name</label>
+        <div class="input-box">
+          <i class="fa-regular fa-id-badge"></i>
+          <input type="text" id="fullname" placeholder="e.g. Budi Santoso" required>
+        </div>
+
+        <label>Email</label>
+        <div class="input-box">
+          <i class="fa-regular fa-envelope"></i>
+          <input type="email" id="email" placeholder="e.g. budi@edufunnel.com" required>
+        </div>
+
+        <label>Password</label>
+        <div class="input-box">
+          <i class="fa-solid fa-lock"></i>
+          <input type="password" id="password" placeholder="Min. 8 characters" required>
+        </div>
+
+        <button class="signin-btn" id="signupBtn">
+          Sign Up
+        </button>
+
+        <p class="signin-link">
+          Already have an account? <a href="../login/login.html">Sign In here</a>
+        </p>
+      </div>
+
+      <div class="right-content">
+        <!-- <div class="right-logo">
+            <!-- <img src="https://cdn-icons-png.flaticon.com/512/3135/3135715.png" alt="logo"> -->
+        <!-- </div> -->
+        <img src="https://download.logo.wine/logo/University_of_Edinburgh/University_of_Edinburgh-Logo.wine.png" alt="University Admission Illustration" class="illustration-img">
+        <h3>AdmissionsHub</h3>
+        <p>STAFF PORTAL</p>
+        <p class="desc">Efficiently manage university admissions and data funnels.</p>
+      </div>
+
+    </div>
+  </div>
+  
+  <script type="module" src="signup.js"></script>
+</body>
+</html>

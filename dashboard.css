@@ -1,0 +1,572 @@
+/* GLOBAL */
+*{
+  margin:0;
+  padding:0;
+  box-sizing:border-box;
+  font-family:'Poppins', sans-serif;
+}
+
+body{
+  background:#faf5fd;
+  color:#222;
+}
+
+/* NAVBAR */
+.navbar{
+  width:100%;
+  height:70px;
+  background:white;
+  display:flex;
+  align-items:center;
+  justify-content:space-between;
+  padding:0 28px;
+  box-shadow:0 2px 10px rgba(0,0,0,0.04);
+  position:sticky;
+  top:0;
+  z-index:10;
+}
+
+.logo{
+  font-size:28px;
+  font-weight:700;
+}
+
+.logo span{
+  color:#b13cff;
+}
+
+.nav-links{
+  display:flex;
+  gap:50px;
+}
+
+.nav-links a{
+  text-decoration:none;
+  color:#555;
+  font-weight:500;
+  padding-bottom:6px;
+}
+
+.nav-links .active{
+  color:#7f3fff;
+  border-bottom:3px solid #7f3fff;
+}
+
+.profile{
+  display:flex;
+  align-items:center;
+  gap:10px;
+}
+
+.profile img{
+  width:42px;
+  height:42px;
+  border-radius:50%;
+}
+
+/* DASHBOARD */
+.dashboard{
+  padding:30px;
+}
+
+.top-section{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:30px;
+}
+
+.top-section h1{
+  font-size:52px;
+}
+
+.top-section p{
+  color:#666;
+}
+
+.dot{ 
+  width:8px; 
+  height:8px; 
+  background:#19c37d; 
+  border-radius:50%; 
+  display:inline-block;
+}
+
+/* ACTIONS */
+.actions{
+  display:flex;
+  gap:14px;
+  align-items:center;
+}
+
+/* BUTTON */
+.actions button{
+  height:58px;
+  border:none;
+  border-radius:16px;
+  background:white;
+  padding:0 22px;
+  font-size:15px;
+  font-weight:500;
+  cursor:pointer;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
+}
+
+/* DROPDOWN */
+.filter-select{
+  height:58px;
+  min-width:240px;
+  border:none;
+  border-radius:16px;
+  background:white;
+  padding:0 52px 0 20px;
+  font-size:15px;
+  font-weight:500;
+  color:#111;
+  cursor:pointer;
+  box-shadow:0 2px 10px rgba(0,0,0,0.05);
+  appearance:none;
+  -webkit-appearance:none;
+  -moz-appearance:none;
+  background-image:url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='18' height='18' viewBox='0 0 24 24' fill='none' stroke='black' stroke-width='2.5' stroke-linecap='round' stroke-linejoin='round'><polyline points='6 9 12 15 18 9'/></svg>");
+  background-repeat:no-repeat;
+  background-position:right 18px center;
+  background-size:18px;
+}
+
+.filter-select:focus{
+  outline:none;
+}
+
+/* EXPORT BUTTON */
+.export-btn{ background:linear-gradient(to right,#7048ff,#cf3b84)!important; color:white; }
+.export-btn:hover { transform: translateY(-2px); filter: brightness(1.1); }
+
+/* STATS CARD */
+.stats-grid{
+  display:grid;
+  grid-template-columns:repeat(3,1fr);
+  gap:20px;
+  margin-bottom:24px;
+}
+
+.stat-card{
+  background:white;
+  border-radius:20px;
+  padding:24px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.04);
+  border-bottom:4px solid #8f6bff;
+}
+
+.pink-border{
+  border-bottom:4px solid #cf3b84;
+}
+
+.top-card{
+  display:flex;
+  justify-content:space-between;
+  margin-bottom:16px;
+}
+
+.top-card span{
+  font-size:12px;
+  color:#777;
+  font-weight:600;
+}
+
+.badge {
+  padding: 5px 12px;
+  border-radius: 30px;
+  font-size: 11px !important;
+  font-weight: 700;
+  display: inline-block;
+  text-align: center;
+  transition: none !important; 
+}
+
+.stat-card h2{
+  font-size:52px;
+  margin-bottom:6px;
+}
+
+/* GRID LAYOUTS */
+.content-grid{
+  display:grid;
+  grid-template-columns:2fr 1fr;
+  gap:20px;
+  margin-bottom:24px;
+}
+
+.bottom-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+  margin-bottom:24px; /* Kasih margin bottom biar ada sela ke bawahnya rapi */
+  min-width: 0;       /* KUNCI UTAMA 1: Mengizinkan row bawah mengempis aman */
+}
+
+/* CARDS CARD SETUP */
+.funnel-card,
+.analysis-card,
+.table-card,
+.contribution-card{
+  background:white;
+  border-radius:22px;
+  padding:28px 40px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.04);
+}
+
+/* HEADERS */
+.card-header{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:22px;
+}
+
+.card-header h3,
+.analysis-card h2,
+.table-card h2,
+.contribution-card h2{
+  font-size:28px;
+  font-weight:700;
+}
+
+.analysis-card h2{
+  font-size:20px;
+  margin-bottom:18px;
+}
+
+/* WARNING BOX */
+.worst-title{
+  margin-top:10px;
+  margin-bottom:12px;
+  font-size:11px;
+  font-weight:700;
+  color:#b52e72;
+  letter-spacing:1px;
+}
+
+.warning-box{
+  background:#f8edf5;
+  border-left:4px solid #6f49d8;
+  border-radius:12px;
+  padding:18px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.warning-icon{
+  width:34px;
+  height:34px;
+  border-radius:10px;
+  background:#f6b9d7;
+  color:#b52e72;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  font-size:15px;
+}
+
+.warning-box span{
+  color:#7b1f5a;
+  font-weight:600;
+}
+
+/* TABLE CARD */
+.table-card table{
+  width:100%;
+  border-collapse:collapse;
+}
+
+.table-card th{
+  text-align:left;
+  padding:14px 10px;
+  font-size:14px;
+  color:#666;
+  border-bottom:2px solid #eee;
+}
+
+.table-card td{
+  padding:16px 10px;
+  border-bottom:1px solid #f2f2f2;
+  font-size:14px;
+}
+
+.total-row td{
+  font-weight:700;
+  border-bottom:none;
+}
+
+/* PERFORMANCE NOTE */
+.performance-note{
+  margin-top:20px;
+  background:#f6f1fb;
+  border-radius:12px;
+  padding:16px;
+  display:flex;
+  align-items:center;
+  gap:14px;
+}
+
+.note-line{
+  width:4px;
+  height:38px;
+  background:#6f49d8;
+  border-radius:20px;
+}
+
+.performance-note p{
+  font-size:13px;
+  color:#555;
+}
+
+/* PERFORMANCE CHART MANUAL (BAWAAN) */
+.performance-grid{
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:20px;
+  margin-top:24px;
+  margin-bottom:24px;
+  min-width: 0; /* KUNCI UTAMA: Mengizinkan chart di dalemnya menyusut tanpa batas kaku */
+}
+
+.performance-card{
+  background:white;
+  border-radius:24px;
+  padding:28px;
+  box-shadow:0 6px 20px rgba(0,0,0,0.04);
+}
+
+.performance-top{
+  display:flex;
+  justify-content:space-between;
+  align-items:center;
+  margin-bottom:30px;
+}
+
+.performance-top h3{
+  font-size:20px;
+  font-weight:700;
+}
+
+.performance-labels{
+  display:flex;
+  gap:18px;
+}
+
+.performance-label{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  font-size:14px;
+  color:#666;
+  font-weight:500;
+}
+
+.performance-dot{
+  width:10px;
+  height:10px;
+  border-radius:50%;
+  display:inline-block;
+}
+
+.performance-dot.purple{
+  background:#6f49d8;
+}
+
+.performance-dot.pink{
+  background:#cf3b84;
+}
+
+.performance-chart{
+  height:320px;
+  display:flex;
+  justify-content:center;
+  align-items:flex-end;
+  gap:50px;
+  border-bottom:1px solid #eee;
+  padding-bottom:20px;
+}
+
+.performance-item{
+  display:flex;
+  flex-direction:column;
+  align-items:center;
+}
+
+.performance-value{
+  font-size:28px;
+  font-weight:700;
+  margin-bottom:14px;
+  color:#444;
+}
+
+.performance-bar{
+  width:90px;
+  border-radius:20px 20px 0 0;
+  transition: transform 0.3s ease, filter 0.3s ease;
+}
+
+.purple-performance{
+  background:linear-gradient(to top, #6f49d8, #7d5cff);
+}
+
+.pink-performance{
+  background:linear-gradient(to top, #b0307c, #cf3b84);
+}
+
+.performance-bar:hover{
+  transform:translateY(-6px);
+  filter:brightness(1.08);
+}
+
+.performance-item p{
+  margin-top:14px;
+  font-size:15px;
+  font-weight:600;
+  color:#555;
+}
+
+/* FOOTER */
+.footer {
+  margin-top: 0;
+  background: white;
+  padding: 22px 40px;
+  border-top: 1px solid #f1f1f1;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 20px;
+}
+
+.footer-left{
+  display:flex;
+  align-items:center;
+  gap:8px;
+  color:#b7bfd1;
+  font-size:12px;
+}
+
+.footer-logo{
+  font-weight:700;
+}
+
+.footer-copy{
+  font-weight:500;
+}
+
+.footer-links{
+  display:flex;
+  gap:24px;
+}
+
+.footer-links a{
+  text-decoration:none;
+  color:#7b8190;
+  font-size:12px;
+  font-weight:500;
+  transition:0.2s;
+}
+
+.footer-links a:hover{
+  color:#7f3fff;
+}
+
+/* RESPONSIVE MANAGEMENT */
+@media screen and (max-width:768px){
+  .footer{
+    flex-direction:column;
+    align-items:flex-start;
+  }
+  .footer-links{
+    flex-wrap:wrap;
+    gap:16px;
+  }
+}
+
+@media screen and (max-width:1100px){
+  .performance-grid{
+    grid-template-columns:1fr;
+  }
+  .navbar{
+    padding:16px;
+    flex-direction:column;
+    height:auto;
+    gap:16px;
+  }
+  .nav-links{
+    gap:20px;
+  }
+  .dashboard{
+    padding:18px;
+  }
+  .top-section h1{
+    font-size:36px;
+  }
+  .filter-select{
+    width:100%;
+  }
+  .stats-grid,
+  .content-grid,
+  .bottom-grid{
+    grid-template-columns:1fr;
+  }
+  .top-section{
+    flex-direction:column;
+    align-items:flex-start;
+    gap:20px;
+  }
+  .actions{
+    flex-wrap:wrap;
+  }
+}
+
+/* ==========================================================
+   GLOBAL INTERACTION EFFECTS (BUTTONS) - SINKRON 100%
+   ========================================================== */
+.export-btn, .filter-select {
+  /* Gunakan transisi cubic-bezier smooth bawaan agar gerakan membalnya rapi */
+  transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
+  user-select: none;
+}
+
+/* Efek Hover untuk Tombol Export Report */
+.export-btn:hover {
+  filter: brightness(1.1);
+  box-shadow: 0 6px 20px rgba(207, 59, 132, 0.4);
+  transform: translateY(-2px);
+}
+
+/* Efek Hover untuk Dropdown All Traffic & Periode Tahun */
+.filter-select:hover {
+  background-color: #faf5fd;
+  border: 1px solid #7048ff;
+  /* Tambahkan efek angkat dikit pas dihover biar sama kayak listdata */
+  transform: translateY(-1px); 
+}
+
+/* ==========================================================
+   MICRO-INTERACTION EFEK MEMBAL / BOUNCE PAS DIKLIK
+   ========================================================== */
+.export-btn:active, .filter-select:active {
+  transform: translateY(0) scale(0.95); /* Efek mengempis membal yang responsif */
+}
+
+/* ==========================================================
+   TUGAS FE: RENDER CANVAS RESPONSIVE WRAPPER OVERRIDE SAKTI
+   ========================================================== */
+.funnel-card canvas, 
+.analysis-card canvas, 
+.contribution-card canvas, /* <-- PASTIKAN INI ADA & AKTIF */
+.performance-card canvas { 
+  width: 100% !important;
+  height: 100% !important;
+  display: block;
+}
+
+canvas {
+  animation: fadeInChart 0.6s ease-out;
+}

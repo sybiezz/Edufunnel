@@ -1,0 +1,160 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+  <title>Admissions Pro List Data</title>
+  
+  <link rel="stylesheet" href="listdata.css">
+  
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Poppins:wght=300;400;500;600;700&display=swap" rel="stylesheet">
+  
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.5.1/css/all.min.css"/>
+</head>
+
+<body>
+
+  <nav class="navbar">
+    <div class="logo">Admissions <span>Pro</span></div>
+    
+    <div class="nav-links">
+      <a href="../dashboard/dashboard.html">Dashboard</a> 
+      <a class="active" href="#">List Data</a>
+    </div>
+
+    <a href="../profile/profile.html" class="profile" style="text-decoration: none; color: inherit; cursor: pointer;">
+      <img src="https://cdn-icons-png.flaticon.com/512/847/847969.png" alt="profile" id="nav-avatar" style="object-fit: cover !important; object-position: center;">
+      <span id="nav-name">Loading...</span>
+    </a>
+  </nav>
+
+  <main class="listdata">
+    
+    <div class="top-section">
+      <div>
+        <h1>List Data</h1>
+        <p><span class="dot"></span> Real-time Performance</p>
+      </div>
+
+      <div class="actions">
+        <select class="filter-select">
+          <option value="all" selected>All Traffic Source</option>
+          <option value="instagram">Instagram</option>
+          <option value="tiktok">TikTok</option>
+        </select>
+
+        <select class="filter-select">
+          <option value="all" selected>All Status</option>
+          <option value="iklan">Iklan (Ads)</option>
+          <option value="ingin_daftar">Ingin Mendaftar</option>
+          <option value="interview">Test/Interview</option>
+          <option value="daftar_ulang">Daftar Ulang</option>
+          <option value="berkuliah">Berkuliah</option>
+        </select>
+
+        <select class="filter-select" id="yearFilter">
+          <option value="2024" selected>Periode 2024</option>
+          <option value="2025">Periode 2025</option>
+        </select>
+
+        <button class="export-btn">
+          <i class="fa-solid fa-download"></i>
+          EXPORT REPORT
+        </button>
+      </div>
+    </div>
+
+    <div class="table-container">
+      <div class="table-header">
+        <h3>Data Calon Mahasiswa Baru</h3>
+        <div class="search-box">
+          <i class="fa-solid fa-magnifying-glass"></i>
+          <input type="text" placeholder="Search by ID or Name...">
+        </div>
+      </div>
+
+      <div class="table-responsive-wrapper">
+        <table class="data-table">
+          <thead>
+            <tr>
+              <th>ID</th>
+              <th>Nama Lengkap</th>
+              <th>Email</th>
+              <th>Sumber Traffic</th>
+              <th>Status Funnel</th>
+              <th>Tanggal Update</th>
+            </tr>
+          </thead>
+
+          <tbody id="table-body">
+            <tr>
+              <td>#AD-001</td>
+              <td class="name">Budi Santoso</td>
+              <td>budi.s@gmail.com</td>
+              <td><span class="source-badge instagram">Instagram</span></td>
+              <td><span class="status-badge stage-1">Berkuliah</span></td>
+              <td>12 Mei 2024</td>
+            </tr>
+
+            <tr>
+              <td>#AD-002</td>
+              <td class="name">Siti Aminah</td>
+              <td>siti.a@yahoo.com</td>
+              <td><span class="source-badge tiktok">TikTok</span></td>
+              <td><span class="status-badge stage-2">Ingin Daftar</span></td>
+              <td>10 Mei 2024</td>
+            </tr>
+
+            <tr>
+              <td>#AD-003</td>
+              <td class="name">Naya Hermawan</td>
+              <td>naya.h@gmail.com</td>
+              <td><span class="source-badge instagram">Instagram</span></td>
+              <td><span class="status-badge stage-3">Interview</span></td>
+              <td>10 November 2024</td>
+            </tr>
+
+            <tr>
+              <td>#AD-004</td>
+              <td class="name">Indah Putri</td>
+              <td>indah.p@yahoo.com</td>
+              <td><span class="source-badge tiktok">TikTok</span></td>
+              <td><span class="status-badge stage-5">Iklan (Ads)</span></td>
+              <td>27 Maret 2026</td>
+            </tr>
+
+            <tr>
+              <td>#AD-005</td>
+              <td class="name">Ladykeiren</td>
+              <td>ladykeiren@gmail.com</td>
+              <td><span class="source-badge instagram">Instagram</span></td>
+              <td><span class="status-badge stage-4">Daftar Ulang</span></td>
+              <td>12 Mei 2024</td>
+            </tr>
+          </tbody>
+        </table>
+      </div> <div class="pagination">
+        <span>Showing 5 of 1,284 entries</span>
+        <div class="page-numbers">
+          <button class="prev"><i class="fa-solid fa-chevron-left"></i></button>
+          <button class="active">1</button>
+          <button>2</button>
+          <button>3</button>
+          <button class="next"><i class="fa-solid fa-chevron-right"></i></button>
+        </div>
+      </div>
+    </div>
+  </main>
+
+  <footer class="footer">
+    <div class="footer-left">
+      <span class="footer-logo">AdmissionsPro</span>
+      <span class="footer-copy">© 2026 Funnel Analytics Platform</span>
+    </div>
+  </footer>
+
+  <script type="module" src="listdata.js"></script>
+</body>
+</html>

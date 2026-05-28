@@ -1,0 +1,20 @@
+{
+  "total_pengunjung": 81,
+  "tahap_funnel": {
+    "iklan": 81,
+    "ingin_mendaftar": 53,
+    "interview": 46,
+    "daftar_ulang": 41,
+    "berkuliah": 33
+  },
+  "analisis_konversi": {
+    "iklan_ke_daftar": { "transisi": 65.43, "drop_off": 34.57 },
+    "daftar_ke_interview": { "transisi": 86.79, "drop_off": 13.21 },
+    "interview_ke_ulang": { "transisi": 89.13, "drop_off": 10.87 },
+    "ulang_ke_kuliah": { "transisi": 80.49, "drop_off": 19.51 }
+  },
+  "performa_sumber": {
+    "instagram": { "pengunjung": 48, "berkuliah": 17, "konversi_persen": 35.42 },
+    "tiktok": { "pengunjung": 33, "berkuliah": 16, "konversi_persen": 48.48 }
+  }
+}
