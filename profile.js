@@ -135,5 +135,4 @@ toggleIcons.forEach(icon => {
   });
 });
 
-// Eksekusi fungsi load data saat script berhasil dibaca browser
 loadProfile();
