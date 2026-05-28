@@ -3,6 +3,7 @@ import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js
 // ==========================================
 // 1. KONEKSI SUPABASE DATABASE
 // ==========================================
+// " Penghubung antara Front-End web dengan Back-End Supabase di cloud. Menggunakan URL endpoint dan Anon Key."
 const supabaseUrl = 'https://afaocnqvmvhkxpomefct.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFmYW9jbnF2bXZoa3hwb21lZmN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1NjE3MDAsImV4cCI6MjA5NDEzNzcwMH0.0on2ooeQbsO2BfTkec3nCL7t-mKcyWd1Z9Xo9htbygg';
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -17,10 +18,10 @@ let perfChart2025 = null;
 // ==========================================
 // 2. INITIALIZATION CONTROLLER
 // ==========================================
+//" Fungsi initDashboard ini otomatis jalan pertama kali web dibuka. Tugasnya mengecek sesi login, sinkronisasi foto profil, dan menarik semua data awal dari tabel admissions."
 async function initDashboard() {
   const { data: { user } } = await supabase.auth.getUser();
-  // Perbaikan: Menggunakan path absolut /login
-  if (!user) { window.location.href = '/login'; return; }
+  if (!user) { window.location.href = '../login/login.html'; return; }
 
   // Sync Data Profil User di Navbar
   const profileName = document.querySelector('.profile span');
@@ -35,6 +36,7 @@ async function initDashboard() {
   allRawData = admissions;
 
   // Event Listeners pada Komponen Dropdown Filter Interaktif
+  // " Ini adalah sensor. Kalau user mengubah dropdown filter tahun atau traffic, sistem akan mendeteksinya dan memanggil fungsi triggerFilterPipeline."
   const sourceFilter = document.getElementById('sourceFilter');
   const yearFilter = document.getElementById('yearFilter');
   
@@ -44,13 +46,13 @@ async function initDashboard() {
   // Jalankan pipeline penyaringan pertama kali halaman dibuka
   triggerFilterPipeline();
   
-  // Panggil fungsi badge statistik secara independen
-  loadDashboardStats();
+  // (DINONAKTIFKAN) - Karena sekarang growth dihitung dinamis, bukan ditarik statis.
+  // loadDashboardStats();
 }
 
 
   // FITUR EKSPOR DATA EXCEL (SINKRON DENGAN LIST DATA)
-  // ==========================================
+  // " Ini fitur untuk mengonversi data JSON dari database menjadi format file Excel (XLSX) menggunakan library SheetsJS, dengan fallback otomatis ke format CSV jika library gagal dimuat."
   const exportBtn = document.querySelector('.export-btn');
   if (exportBtn) {
     exportBtn.addEventListener('click', () => {
@@ -63,7 +65,7 @@ async function initDashboard() {
       try {
         // Cek apakah library XLSX (SheetsJS) sudah ter-load di browser
         if (typeof XLSX !== 'undefined') {
-          // Buat lembar kerja baru dari array data mentah database lo
+          // Buat lembar kerja baru dari array data mentah database
           const worksheet = XLSX.utils.json_to_sheet(allRawData);
           const workbook = XLSX.utils.book_new();
           XLSX.utils.book_append_sheet(workbook, worksheet, "Admissions Report");
@@ -74,7 +76,7 @@ async function initDashboard() {
           // Alternatif fallback jika tidak pakai library XLSX: Menggunakan format CSV standar
           let csvContent = "data:text/csv;charset=utf-8,";
           
-          // Ambil header kolom otomatis dari data object Supabase lo
+          // Ambil header kolom otomatis dari data object Supabase
           const headers = Object.keys(allRawData[0]).join(",");
           csvContent += headers + "\r\n";
           
@@ -101,6 +103,7 @@ async function initDashboard() {
   }
 
 // Pipeline utama penyaringan objek JSON sebelum dikirim ke kanvas grafik
+// "Ini adalah fungsi filtering utama. Cara kerjanya menggunakan metode array .filter() dari JavaScript murni untuk menyaring data berdasarkan pilihan dropdown, lalu dikirim ke fungsi pembuat grafik."
 function triggerFilterPipeline() {
   let filteredArray = [...allRawData];
 
@@ -135,6 +138,59 @@ function updateChartsAndCards(filteredData) {
   document.getElementById('visitor-count').innerText = totalVisitors;
   document.getElementById('ig-visitors').innerText = igRows.length;
   document.getElementById('tiktok-visitors').innerText = tiktokRows.length;
+
+  // ==========================================
+  // LOGIKA BARU: HITUNG GROWTH DINAMIS BERDASARKAN TAHUN
+  // ==========================================
+  // 1. Saring data mentah berdasarkan dropdown trafik (Instagram/TikTok/All)
+  let growthData = [...allRawData];
+  const currentSource = document.getElementById('sourceFilter')?.value.toLowerCase();
+  
+  if (currentSource && currentSource !== "all") {
+    if (currentSource === "instagram") {
+      growthData = growthData.filter(r => r.sumber_trafik === "Instagram Ads");
+    } else if (currentSource === "tiktok") {
+      growthData = growthData.filter(r => r.sumber_trafik === "Tiktok Ads");
+    }
+  }
+
+  // 2. Deteksi Tahun yang sedang dipilih di Dropdown
+  const selectedYearStr = document.getElementById('yearFilter')?.value;
+  let targetYear = 2025; // Default jika yang dipilih adalah "All" atau kosong
+  
+  if (selectedYearStr && selectedYearStr !== "all") {
+    targetYear = parseInt(selectedYearStr); // Ubah teks dropdown "2024" atau "2025" jadi angka
+  }
+
+  // 3. Ambil total pengunjung tahun terpilih dan tahun sebelumnya
+  const currentYearTotal = growthData.filter(row => row.tahun == targetYear).length;
+  const prevYearTotal = growthData.filter(row => row.tahun == (targetYear - 1)).length;
+  
+  const growthBadge = document.getElementById('visitor-growth');
+
+  if (growthBadge) {
+    // Pastikan data tahun sebelumnya ada sebelum dibagi, biar nggak error (dibagi nol)
+    if (prevYearTotal > 0) {
+      // Rumus: ((Tahun Ini - Tahun Lalu) / Tahun Lalu) * 100
+      const calcGrowth = (((currentYearTotal - prevYearTotal) / prevYearTotal) * 100).toFixed(1);
+      
+      if (calcGrowth >= 0) {
+        growthBadge.innerText = `↗ ${calcGrowth}%`;
+        growthBadge.style.setProperty('background-color', '#e6fbd9', 'important'); 
+        growthBadge.style.setProperty('color', '#2d8a39', 'important');           
+      } else {
+        growthBadge.innerText = `↘ ${Math.abs(calcGrowth)}%`;
+        growthBadge.style.setProperty('background-color', '#ffe5e5', 'important'); 
+        growthBadge.style.setProperty('color', '#d32f2f', 'important');           
+      }
+    } else {
+      // Kalau data tahun sebelumnya kosong di database (misal lu pilih 2024, tapi data 2023 ga ada)
+      growthBadge.innerText = "-";
+      growthBadge.style.setProperty('background-color', '#f5f0fa', 'important');
+      growthBadge.style.setProperty('color', '#999', 'important');
+    }
+  }
+  // ==========================================
 
   // --- B. TEKNIK MEMETAKAN DATA (MAPPING JSON TO STAGES) ---
   const stage1Count = filteredData.filter(r => r.pengunjung == 1).length;
@@ -217,7 +273,7 @@ function updateChartsAndCards(filteredData) {
             
             ctx.save();
             ctx.fillStyle = '#444444'; 
-            ctx.font = "600 13px 'Poppins'";
+            ctx.font = "600 13px 'SF Pro Display'";
             ctx.textAlign = 'left';
             ctx.textBaseline = 'middle';
             ctx.fillText(textString, bar.x + 12, bar.y);
@@ -251,6 +307,7 @@ function updateChartsAndCards(filteredData) {
     // ==========================================================
     // LOGIKA AUTO-DETECT WORST DROP-OFF PER STAGE
     // ==========================================================
+    // " Algoritma khusus menggunakan perulangan (looping) untuk mencari indeks array dengan nilai attrition (kegagalan) tertinggi secara otomatis."
     const worstTextElement = document.getElementById('worst-dropoff-text');
     if (worstTextElement) {
       const stageNames = [
@@ -343,18 +400,18 @@ function updateChartsAndCards(filteredData) {
             ctx.textAlign = 'left';
             ctx.textBaseline = 'bottom';
             ctx.fillStyle = '#6f49d8';
-            ctx.font = "600 13px 'Poppins'";
+            ctx.font = "600 13px 'SF Pro Display'";
             ctx.fillText(mainLabel, bar.x - bar.width + 2, yPos - 16); 
 
             const mainLabelWidth = ctx.measureText(mainLabel).width;
             ctx.fillStyle = '#666666';
-            ctx.font = "400 11px 'Poppins'";
+            ctx.font = "400 11px 'SF Pro Display'";
             ctx.fillText(" " + subLabel, bar.x - bar.width + 2 + mainLabelWidth, yPos - 17); 
             ctx.restore();
 
             ctx.save();
             ctx.fillStyle = '#6f49d8';
-            ctx.font = "700 13px 'Poppins'";
+            ctx.font = "700 13px 'SF Pro Display'";
             ctx.textAlign = 'right';
             ctx.textBaseline = 'bottom';
             ctx.fillText(convText, rightBoundary - 55, yPos - 16);
@@ -362,7 +419,7 @@ function updateChartsAndCards(filteredData) {
 
             ctx.save();
             ctx.fillStyle = '#cf3b84';
-            ctx.font = "700 13px 'Poppins'";
+            ctx.font = "700 13px 'SF Pro Display'";
             ctx.textAlign = 'right';
             ctx.textBaseline = 'bottom';
             ctx.fillText(attrText, rightBoundary, yPos - 16);
@@ -373,7 +430,7 @@ function updateChartsAndCards(filteredData) {
     });
   }
 
-  // --- E. RENDER DOUGHNUT CHART ---
+// --- E. RENDER DOUGHNUT CHART ---
   const ctxDonut = document.getElementById('contributionDonutChartCanvas');
   if (ctxDonut) {
     if (conversionChartInstance) conversionChartInstance.destroy();
@@ -395,6 +452,9 @@ function updateChartsAndCards(filteredData) {
     donutGradTT.addColorStop(0, '#7048ff'); 
     donutGradTT.addColorStop(1, '#9e85ff'); 
 
+    // DETEKSI LAYAR: Sinkron dengan CSS breakpoint 1100px
+    const isMobileLayout = window.innerWidth <= 1100;
+
     conversionChartInstance = new Chart(canvasContext, {
       type: 'doughnut', 
       data: {
@@ -411,16 +471,18 @@ function updateChartsAndCards(filteredData) {
         responsive: true,
         maintainAspectRatio: false,
         cutout: '50%',
-        layout: { padding: { top: 10, bottom: 10, left: 10, right: 100 } },
+        // Jika di HP, hapus padding kanan biar chart bisa lebih besar di tengah
+        layout: { padding: { top: 10, bottom: 10, left: 10, right: isMobileLayout ? 10 : 100 } },
         plugins: {
           legend: {
             display: true,
-            position: 'right',
+            // Jika di HP teks pindah ke bawah, jika PC di kanan
+            position: isMobileLayout ? 'bottom' : 'right',
             align: 'center',
             labels: {
               boxWidth: 12,
               padding: 12,
-              font: { family: "'Poppins', sans-serif", size: 18, weight: '500' },
+              font: { family: "'SF Pro Display', sans-serif", size: isMobileLayout ? 14 : 18, weight: '600' },
               color: '#333'
             }
           }
@@ -480,7 +542,7 @@ function updateChartsAndCards(filteredData) {
         const meta = chart.getDatasetMeta(0).data[index];
         ctx.save();
         ctx.fillStyle = index === 0 ? '#6f49d8' : '#cf3b84';
-        ctx.font = "700 14px 'Poppins'";
+        ctx.font = "700 14px 'SF Pro Display'";
         ctx.textAlign = 'center';
         ctx.textBaseline = 'bottom';
         ctx.fillText(dataValue, meta.x, meta.y - 8);
@@ -489,16 +551,27 @@ function updateChartsAndCards(filteredData) {
     }
   };
 
+  // ==========================================
+  // LOGIKA BARU: PISAHKAN DATA BERDASARKAN TAHUN
+  // ==========================================
+  const data2024 = growthData.filter(r => r.tahun == 2024);
+  const data2025 = growthData.filter(r => r.tahun == 2025);
+
   // 1. CHART TAHUN 2024
   const ctx2024 = document.getElementById('perfChartCanvas2024');
   if (ctx2024) {
     if (perfChart2024) perfChart2024.destroy();
+    
+    // Hitung dinamis dari data2024
+    const success2024 = data2024.filter(r => r.berkuliah == 1).length;
+    const failure2024 = data2024.length - success2024;
+
     perfChart2024 = new Chart(ctx2024.getContext('2d'), {
       type: 'bar',
       data: {
         labels: ["Failure", "Success"],
         datasets: [{
-          data: [48, 33], 
+          data: [failure2024, success2024], 
           backgroundColor: ['#6f49d8', '#cf3b84'],
           borderRadius: 8,
           barThickness: 100
@@ -514,8 +587,9 @@ function updateChartsAndCards(filteredData) {
   if (ctx2025) {
     if (perfChart2025) perfChart2025.destroy();
 
-    const success2025 = filteredData.filter(r => r.berkuliah == 1).length;
-    const failure2025 = filteredData.length - success2025;
+    // Hitung dinamis dari data2025
+    const success2025 = data2025.filter(r => r.berkuliah == 1).length;
+    const failure2025 = data2025.length - success2025;
 
     perfChart2025 = new Chart(ctx2025.getContext('2d'), {
       type: 'bar',
@@ -532,41 +606,6 @@ function updateChartsAndCards(filteredData) {
       plugins: [labelInjectorPlugin]
     });
   }
-}
-
-// ==========================================
-// 4. ASYNC STATISTIK BADGE DARI SUPABASE (SEPARATED & FIXED)
-// ==========================================
-function loadDashboardStats() {
-  const growthBadge = document.getElementById('visitor-growth');
-  if (!growthBadge) return;
-
-  supabase.from('dashboard_stats').select('growth').eq('id', 1).single()
-    .then(({ data, error }) => {
-      if (error || !data) {
-        console.error("Gagal memuat data growth:", error);
-        growthBadge.innerText = "0.0%";
-        growthBadge.style.setProperty('background-color', '#eee', 'important');
-        growthBadge.style.setProperty('color', '#666', 'important');
-        return;
-      }
-
-      const growthValue = parseFloat(data.growth);
-
-      if (growthValue >= 0) {
-        growthBadge.innerText = `↗ ${growthValue}%`;
-        growthBadge.style.setProperty('background-color', '#e6fbd9', 'important'); 
-        growthBadge.style.setProperty('color', '#2d8a39', 'important');           
-      } else {
-        growthBadge.innerText = `↘ ${Math.abs(growthValue)}%`;
-        growthBadge.style.setProperty('background-color', '#ffe5e5', 'important'); 
-        growthBadge.style.setProperty('color', '#d32f2f', 'important');           
-      }
-    })
-    .catch(err => {
-      console.error("System error badge:", err);
-      growthBadge.innerText = "Error";
-    });
 }
 
 // Jalankan inisialisasi awal modul
