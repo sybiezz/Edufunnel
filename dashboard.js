@@ -140,6 +140,39 @@ function updateChartsAndCards(filteredData) {
   document.getElementById('tiktok-visitors').innerText = tiktokRows.length;
 
   // ==========================================
+  // LOGIKA BARU: HITUNG BEST TRAFFIC SOURCE DINAMIS
+  // ==========================================
+  // Hitung persentase sukses (berkuliah) dari masing-masing sumber
+  const igTotal = igRows.filter(r => r.pengunjung == 1).length;
+  const igSuccess = igRows.filter(r => r.berkuliah == 1).length;
+  const igConv = igTotal ? (igSuccess / igTotal * 100) : 0;
+
+  const ttTotal = tiktokRows.filter(r => r.pengunjung == 1).length;
+  const ttSuccess = tiktokRows.filter(r => r.berkuliah == 1).length;
+  const ttConv = ttTotal ? (ttSuccess / ttTotal * 100) : 0;
+
+  const bestSourceLabel = document.getElementById('best-source-label');
+  const bestSourceRate = document.getElementById('best-source-rate');
+
+  if (bestSourceLabel && bestSourceRate) {
+    if (ttConv > igConv) {
+      bestSourceLabel.innerText = "TIKTOK";
+      bestSourceRate.innerText = ttConv.toFixed(2) + "%";
+    } else if (igConv > ttConv) {
+      bestSourceLabel.innerText = "INSTAGRAM";
+      bestSourceRate.innerText = igConv.toFixed(2) + "%";
+    } else if (igConv === 0 && ttConv === 0) {
+      bestSourceLabel.innerText = "-";
+      bestSourceRate.innerText = "0%";
+    } else {
+      // Kalau hasilnya seri
+      bestSourceLabel.innerText = "IG & TIKTOK";
+      bestSourceRate.innerText = igConv.toFixed(2) + "%";
+    }
+  }
+  // ==========================================
+
+  // ==========================================
   // LOGIKA BARU: HITUNG GROWTH DINAMIS BERDASARKAN TAHUN
   // ==========================================
   // 1. Saring data mentah berdasarkan dropdown trafik (Instagram/TikTok/All)
