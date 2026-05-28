@@ -241,6 +241,15 @@ function updateChartsAndCards(filteredData) {
   const trans3_4 = stage3Count ? ((stage4Count / stage3Count) * 100).toFixed(1) : 0;
   const trans4_5 = stage4Count ? ((stage5Count / stage4Count) * 100).toFixed(1) : 0;
 
+  const pctFunnel5 = stage1Count ? ((stage5Count / stage1Count) * 100).toFixed(1) : 0;
+  document.getElementById('avg-conversion').innerText = `${pctFunnel5}%`;
+
+  // Hitung Rasio Transisi untuk chart analisis kanan
+  const trans1_2 = stage1Count ? ((stage2Count / stage1Count) * 100).toFixed(1) : 0;
+  const trans2_3 = stage2Count ? ((stage3Count / stage2Count) * 100).toFixed(1) : 0;
+  const trans3_4 = stage3Count ? ((stage4Count / stage3Count) * 100).toFixed(1) : 0;
+  const trans4_5 = stage4Count ? ((stage5Count / stage4Count) * 100).toFixed(1) : 0;
+
   // --- C. RENDER DIAGRAM FUNNEL PREMIUM ---
   const ctxFunnel = document.getElementById('funnelChartCanvas');
   if (ctxFunnel) {
