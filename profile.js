@@ -17,7 +17,7 @@ let base64Avatar = "";
 // "Fungsi ini berjalan otomatis saat halaman dibuka. Tugasnya menarik data user dari sesi (session) Supabase Auth, lalu menempelkan nama, email, dan foto profilnya ke elemen-elemen HTML (DOM)."
 async function loadProfile() {
   const { data: { user }, error } = await supabase.auth.getUser();
-  if (!user || error) { window.location.href = 'login.html'; return; }
+  if (!user || error) { window.location.href = '../login/login.html'; return; }
 
   const fullName = user.user_metadata?.full_name || 'Admin';
   const avatarUrl = user.user_metadata?.avatar_url || 'https://i.pravatar.cc/150';
@@ -145,7 +145,7 @@ document.getElementById('logoutBtn').addEventListener('click', async function() 
   if (error) {
     alert("Gagal logout: " + error.message);
   } else {
-    window.location.href = 'login.html';
+    window.location.href = '/login';
   }
 });
 
