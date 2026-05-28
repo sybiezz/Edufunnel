@@ -1,8 +1,3 @@
-/* ========================================== */
-/* 1. IMPORT FONT SF PRO DISPLAY              */
-/* ========================================== */
-
-/* Regular (400) */
 @font-face {
   font-family: 'SF Pro Display';
   src: url('SF-Pro-Display-Regular.otf') format('opentype');
@@ -10,7 +5,6 @@
   font-style: normal;
 }
 
-/* Semibold (600) */
 @font-face {
   font-family: 'SF Pro Display';
   src: url('SF-Pro-Display-Semibold.otf') format('opentype');
@@ -18,7 +12,6 @@
   font-style: normal;
 }
 
-/* Bold (700) */
 @font-face {
   font-family: 'SF Pro Display';
   src: url('SF-Pro-Display-Bold.otf') format('opentype');
@@ -26,9 +19,6 @@
   font-style: normal;
 }
 
-/* ==========================================================
-   2. GLOBAL & RESET STYLES
-   ========================================================== */
 *{
     margin:0;
     padding:0;
@@ -42,13 +32,10 @@ body{
     flex-direction:column;
     background:#faf5fd;
     color:#222;
-    overflow-x: hidden; /* KUNCI: Cegah seluruh halaman goyang kiri-kanan */
+    overflow-x: hidden;
     width: 100%;
 }
 
-/* ==========================================================
-   3. NAVBAR & NAVIGATION PANELS
-   ========================================================== */
 .navbar{
     width:100%;
     height:70px;
@@ -73,9 +60,6 @@ body{
 .profile{ display:flex; align-items:center; gap:10px; }
 .profile img{ width:42px; height:42px; border-radius:50%; }
 
-/* ==========================================================
-   4. CONTAINER MAIN CONTENT
-   ========================================================== */
 .listdata{
     flex:1;
     padding:30px;
@@ -92,9 +76,6 @@ body{
 .top-section p{ color:#666; display:flex; align-items:center; gap:8px; font-weight: 400; }
 .dot{ width:8px; height:8px; background:#19c37d; border-radius:50%; }
 
-/* ==========================================================
-   5. ACTIONS (FILTER, CALENDAR & BUTTON INTERACTION EFFECTS)
-   ========================================================== */
 .actions{ 
     display:flex; 
     gap:14px; 
@@ -108,14 +89,13 @@ body{
     background: white;
     padding: 0 22px;
     font-size: 15px;
-    font-weight: 600; /* Update ke semibold */
+    font-weight: 600;
     box-shadow: 0 2px 10px rgba(0,0,0,0.05);
     cursor: pointer;
     transition: all 0.2s cubic-bezier(0.4, 0, 0.2, 1);
     user-select: none;
 }
 
-/* Dropdown Filter Traffic */
 .filter-select {
     min-width: 240px;
     padding: 0 52px 0 20px;
@@ -133,7 +113,6 @@ body{
     outline: none;
 }
 
-/* Tombol Input Kalender Periode */
 .year-btn { 
     min-width: 280px; 
     display: flex; 
@@ -145,14 +124,12 @@ body{
 
 .hidden-date { position: absolute; top: 0; left: 0; width: 100%; height: 100%; opacity: 0; cursor: pointer; }
 
-/* Efek Hover Komponen Aksi Filter */
 .filter-select:hover, .year-btn:hover {
     background-color: #faf5fd;
     border: 1px solid #7048ff;
     transform: translateY(-1px);
 }
 
-/* Export Report Button */
 .export-btn { 
     background: linear-gradient(to right, #7048ff, #cf3b84) !important; 
     color: white; 
@@ -164,14 +141,10 @@ body{
     transform: translateY(-2px); 
 }
 
-/* Efek Membal Pas Diklik (Micro-Interaction) */
 .filter-select:active, .year-btn:active, .export-btn:active {
     transform: translateY(0) scale(0.95);
 }
 
-/* ==========================================================
-   6. TABLE STORAGE CARD & SEARCH BOX
-   ========================================================== */
 .table-container {
     background: white;
     border-radius: 22px;
@@ -218,20 +191,16 @@ body{
 
 .search-box input:focus { border-color: #7048ff; box-shadow: 0 0 0 4px rgba(112, 72, 255, 0.1); }
 
-/* Wrapper responsif kustom untuk tabel data */
 .table-responsive-wrapper {
     width: 100%;
     overflow-x: auto;
-    -webkit-overflow-scrolling: touch; /* Biar scrollnya mulus di HP */
+    -webkit-overflow-scrolling: touch;
 }
 
-/* ==========================================================
-   7. DATA TABLE RENDERING
-   ========================================================== */
 .data-table {
     width: 100%;
     border-collapse: collapse;
-    min-width: 800px; /* Memaksa tabel agar tetap rapi saat di-scroll horizontal di device kecil */
+    min-width: 800px;
 }
 
 .data-table th {
@@ -255,7 +224,6 @@ body{
 
 .data-table tr:hover { background-color: #fafafa; }
 
-/* Badges Component */
 .source-badge {
     padding: 6px 12px;
     border-radius: 8px;
@@ -277,11 +245,11 @@ body{
     text-align: center;
 }
 
-.stage-1 { background: #19c37d; } /* Berkuliah */
-.stage-2 { background: #ff9f43; } /* Ingin Daftar */
-.stage-3 { background: #ff6b6b; } /* Test/Interview */
-.stage-4 { background: #4ecdc4; } /* Daftar Ulang */
-.stage-5 { background: #7048ff; } /* Iklan (Ads) */
+.stage-1 { background: #19c37d; }
+.stage-2 { background: #ff9f43; }
+.stage-3 { background: #ff6b6b; }
+.stage-4 { background: #4ecdc4; }
+.stage-5 { background: #7048ff; }
 
 .btn-detail {
     padding: 8px 20px;
@@ -296,9 +264,6 @@ body{
 
 .btn-detail:hover { background: #7048ff; color: white; }
 
-/* ==========================================================
-   8. PAGINATION MECHANICS
-   ========================================================== */
 .pagination {
     display: flex;
     justify-content: space-between;
@@ -314,7 +279,7 @@ body{
 .page-numbers { 
     display: flex; 
     gap: 10px; 
-    flex-wrap: wrap; /* KUNCI ANTI GOYANG: Biar tombol angka turun ke baris baru kalau kepanjangan */
+    flex-wrap: wrap;
     justify-content: center;
 }
 
@@ -332,9 +297,6 @@ body{
 .page-numbers button.active { background: #7048ff; color: white; border-color: #7048ff; }
 .page-numbers button:hover:not(.active) { background: #f8f8f8; }
 
-/* ==========================================================
-   9. FOOTER STYLING
-   ========================================================== */
 .footer{
     margin-top:auto;
     width:100%;
@@ -369,24 +331,18 @@ body{
 
 .footer-links a:hover{ color:#7f3fff; }
 
-/* ==========================================================
-   10. RESPONSIVE BREAKPOINTS (MEDIA QUERIES SYSTEM)
-   ========================================================== */
 @media screen and (max-width: 1100px) {
-    /* --- 1. NAVBAR SAKTI (LOGO & PROFIL SEBARIS) --- */
     .navbar {
         padding: 16px 20px;
-        flex-direction: row; /* Paksa elemen tetap berjejer ke samping */
-        flex-wrap: wrap;     /* Izinkan elemen turun ke bawah jika lebarnya penuh */
-        justify-content: space-between; /* Dorong logo ke ujung kiri, profil ke ujung kanan */
+        flex-direction: row;
+        flex-wrap: wrap;
+        justify-content: space-between;
         height: auto;
     }
 
-    /* Urutan Posisi (Order) */
     .logo { order: 1; }
     .profile { order: 2; }
-    
-    /* Link Navigasi dipaksa turun ke baris kedua dan rata tengah */
+
     .nav-links {
         order: 3;
         width: 100%;
@@ -395,7 +351,6 @@ body{
         gap: 30px;
     }
 
-    /* --- 2. PENYESUAIAN GRID & KONTEN --- */
     .listdata { padding: 18px; }
     
     .top-section { 
@@ -427,8 +382,7 @@ body{
         width: 100%; 
         margin-top: 5px; 
     }
-    
-    /* Membungkus tabel agar aman di-scroll horizontal tanpa ngerusak body dashboard */
+
     .data-table { 
         display: table; 
     }
@@ -451,9 +405,7 @@ body{
   }
 }
 
-/* KHUSUS LAYAR HP KECIL (MAX 480px) */
 @media screen and (max-width: 480px) {
-  /* Ngecilin ukuran font Logo dan Nama Profil biar gak tabrakan di layar sempit */
   .logo { font-size: 22px; }
   
   .profile span { 
