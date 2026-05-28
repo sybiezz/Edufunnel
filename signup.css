@@ -1,8 +1,38 @@
+/* ========================================== */
+/* 1. IMPORT FONT SF PRO DISPLAY              */
+/* ========================================== */
+/* Regular (400) */
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('../assets/fonts/SF-Pro-Display-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Semibold (600) */
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('../assets/fonts/SF-Pro-Display-Semibold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* Bold (700) */
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('../assets/fonts/SF-Pro-Display-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
+/* ========================================== */
+/* 2. GLOBAL STYLES                           */
+/* ========================================== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 body {
@@ -12,8 +42,7 @@ body {
   background-position: bottom center;
   background-size: cover;
   min-height: 100vh;
-  overflow: hidden;
-  font-family: 'Poppins', sans-serif;
+  /* overflow: hidden; Dihapus agar form bisa di-scroll kalau dibuka di layar HP yang pendek */
 }
 
 .container {
@@ -24,6 +53,7 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
+  padding: 20px; /* Tambahan padding agar saat di HP card tidak mentok ke pinggir layar */
 }
 
 /* TOP LOGO */
@@ -60,17 +90,21 @@ body {
   letter-spacing: 2px;
   color: #8e8e8e;
   margin-top: -2px;
+  font-weight: 600;
 }
 
-/* KARTU JADI DUA KOLOM (ANTI GAGAL) */
+/* ========================================== */
+/* 3. CARD CONTAINER (2 KOLOM RESPONSIVE)     */
+/* ========================================== */
 .login-card {
-  width: 900px !important; 
-  height: 550px !important; 
+  width: 100% !important;             /* (RESPONSIVE FIX) Memenuhi ruang yang tersedia */
+  max-width: 900px !important;        /* (RESPONSIVE FIX) Tapi mentok di 900px kalau dibuka di laptop */
+  min-height: 550px !important;       /* Ubah height jadi min-height agar bisa memanjang otomatis ke bawah kalau formnya nambah */
   background: white;
   border-radius: 26px;
   box-shadow: 0 10px 35px rgba(0,0,0,0.05);
-  display: flex !important; /* Paksa jadi sebelahan */
-  flex-direction: row !important; /* Paksa kiri-kanan */
+  display: flex !important; 
+  flex-direction: row !important; 
   overflow: hidden !important; 
 }
 
@@ -88,6 +122,7 @@ body {
   font-size: 31px;
   color: #262626;
   margin-bottom: 8px;
+  font-weight: 700;
 }
 
 .subtitle {
@@ -95,12 +130,13 @@ body {
   line-height: 1.6;
   color: #8c8c8c;
   margin-bottom: 20px;
+  font-weight: 400;
 }
 
 label {
   display: block;
   font-size: 12px;
-  font-weight: 500;
+  font-weight: 600; /* Update ke semibold */
   margin-bottom: 6px;
   color: #3c3c3c;
 }
@@ -114,6 +150,11 @@ label {
   align-items: center;
   padding: 0 14px;
   margin-bottom: 12px; 
+  transition: border-color 0.3s ease;
+}
+
+.input-box:focus-within {
+  border-color: #6546d8;
 }
 
 .input-box i {
@@ -126,8 +167,10 @@ label {
   border: none;
   outline: none;
   width: 100%;
-  font-size: 13px;
+  font-size: 14px;
   color: #444;
+  font-family: 'SF Pro Display', sans-serif;
+  font-weight: 400;
 }
 
 .input-box input::placeholder {
@@ -143,14 +186,19 @@ label {
   background: linear-gradient(to right, #6546d8, #d9387f);
   color: white;
   font-size: 14px;
-  font-weight: 500;
+  font-weight: 600; /* Update ke semibold */
   cursor: pointer;
   margin-top: 10px;
-  transition: 0.3s;
+  transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
 }
 
 .signin-btn:hover {
   opacity: 0.9;
+  box-shadow: 0 4px 15px rgba(101, 70, 216, 0.3);
+}
+
+.signin-btn:active {
+  transform: scale(0.97); /* Micro interaction klik */
 }
 
 .signin-link {
@@ -158,6 +206,7 @@ label {
   margin-top: 20px;
   font-size: 13px;
   color: #64748b;
+  font-weight: 400;
 }
 
 .signin-link a {
@@ -213,6 +262,7 @@ label {
   text-transform: uppercase;
   opacity: 0.8;
   margin-bottom: 15px;
+  font-weight: 600;
 }
 
 .right-content .desc {
@@ -222,6 +272,7 @@ label {
   opacity: 0.9;
   line-height: 1.5;
   margin-top: 10px;
+  font-weight: 400;
 }
 
 /* --- FITUR SHOW/HIDE PASSWORD --- */
@@ -239,4 +290,28 @@ label {
 
 .toggle-pw:hover {
   color: #c2185b !important;
+}
+
+/* ========================================== */
+/* 4. RESPONSIVE MOBILE BREAKPOINT            */
+/* ========================================== */
+/* [BUAT PRESENTASI]: "Ini adalah strategi responsif untuk form 2 kolom. Jika dideteksi layar berukuran kecil (HP), saya mematikan kolom ilustrasi kanan (display: none), sehingga pengguna HP bisa langsung fokus ke form pengisian tanpa harus scroll panjang." */
+@media screen and (max-width: 768px) {
+  .login-card {
+    flex-direction: column !important; /* Ubah susunan jadi atas-bawah */
+    max-width: 500px !important;
+  }
+  
+  .left-content {
+    width: 100% !important; /* Form ngambil full lebar card */
+    padding: 40px 24px;
+  }
+  
+  .right-content {
+    display: none !important; /* Sembunyikan banner ungu di HP biar clean */
+  }
+
+  .left-content h2 {
+    font-size: 26px;
+  }
 }
