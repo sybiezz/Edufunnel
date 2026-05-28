@@ -29,9 +29,9 @@ document.querySelectorAll('.export-btn, .filter-select').forEach(button => {
 // ==========================================
 
 async function initListData() {
-  // Cek Login
+  // Cek Login - Diubah ke path absolut /login
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) { window.location.href = '../login/login.html'; return; }
+  if (!user) { window.location.href = '/login'; return; }
 
   // --- UBAH PROFIL DINAMIS ---
   const profileName = document.querySelector('.profile span');
@@ -167,11 +167,6 @@ function renderPagination(dataToRender) {
 // FUNGSI MEMBACA FILTER & SEARCH - SUDAH DIPERBAIKI (TIDAK HILANG SAAT DI-KLIK "ALL")
 function setupFilters() {
   const selects = document.querySelectorAll('.filter-select');
-  
-  // Karena struktur HTML baru:
-  // selects[0] = Sumber Trafik (value: all, instagram, tiktok)
-  // selects[1] = Status Funnel (value: all, iklan, ingin_daftar, interview, daftar_ulang, berkuliah)
-  // yearFilter = Dropdown Tahun (pakai ID biar aman)
   
   const sourceFilter = selects[0];
   const statusFilter = selects[1]; 
