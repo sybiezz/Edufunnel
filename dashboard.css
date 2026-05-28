@@ -31,8 +31,9 @@
 body{
   background:#faf5fd;
   color:#222;
-  overflow-x: hidden;
-  width: 100%;
+  overflow-x:auto;
+  width:100%;
+  min-width:390px; /* ukuran minimum mobile modern */
 }
 
 .navbar{
@@ -98,6 +99,7 @@ body{
 
 .dashboard{
   width: 100%;
+  min-width:390px;
   max-width: 1500px; /* batas lebar desktop */
   padding: 0;
 }
@@ -178,6 +180,7 @@ body{
   grid-template-columns:repeat(3,1fr);
   gap:20px;
   margin-bottom:24px;
+  align-items:start;
 }
 
 .stat-card{
@@ -186,6 +189,8 @@ body{
   padding:24px;
   box-shadow:0 6px 20px rgba(0,0,0,0.04);
   border-bottom:4px solid #8f6bff;
+  min-width:0;
+flex-shrink:0;
 }
 
 .pink-border{
@@ -627,52 +632,114 @@ canvas {
 }
 
 /* ==========================================================
-   MOBILE FULL WIDTH + HORIZONTAL SCROLL FIX
+   CHART ANTI GEPENG
    ========================================================== */
-@media screen and (max-width: 768px){
 
-  /* dashboard full layar HP */
+.chart-wrapper{
+  min-width:500px;
+  min-height:320px;
+}
+
+.performance-chart-wrapper{
+  min-width:500px;
+  min-height:260px;
+}
+
+/* ==========================================================
+   FINAL MOBILE & CHART FIX
+   ========================================================== */
+
+/* Card chart bisa scroll horizontal */
+.funnel-card,
+.analysis-card,
+.contribution-card,
+.performance-card{
+  overflow-x:auto;
+  overflow-y:hidden;
+  -webkit-overflow-scrolling: touch;
+}
+
+/* Wrapper chart */
+.chart-wrapper{
+  min-width:520px;
+  min-height:320px;
+  position:relative;
+}
+
+/* Wrapper donut */
+.donut-wrapper{
+  min-width:420px;
+  min-height:260px;
+  position:relative;
+}
+
+/* Wrapper performance */
+.performance-chart-wrapper{
+  min-width:520px;
+  min-height:300px;
+  position:relative;
+}
+
+/* Jangan paksa chart mengecil */
+.funnel-card canvas,
+.analysis-card canvas,
+.contribution-card canvas,
+.performance-card canvas{
+  width:auto !important;
+  height:auto !important;
+  min-width:100% !important;
+  display:block;
+}
+
+/* ==========================================================
+   MOBILE RESPONSIVE
+   ========================================================== */
+@media screen and (max-width:768px){
+
+  body{
+    overflow-x:auto;
+  }
+
+  /* full screen mobile */
   .dashboard-container{
-    padding: 0;
+    padding:0;
   }
 
   .dashboard{
-    width: 100%;
+    width:100%;
+    min-width:390px;
   }
 
-  /* semua card bisa discroll horizontal jika isi kepanjangan */
+  /* grid jadi 1 kolom */
+  .stats-grid,
+  .content-grid,
+  .bottom-grid,
+  .performance-grid{
+    grid-template-columns:1fr;
+  }
+
+  /* card scroll */
   .stat-card,
   .funnel-card,
   .analysis-card,
   .table-card,
   .contribution-card,
   .performance-card{
-    overflow-x: auto;
-    overflow-y: hidden;
-    -webkit-overflow-scrolling: touch;
+    overflow-x:auto;
+    overflow-y:hidden;
   }
 
-  /* cegah text nabrak */
+  /* text tidak numpuk */
   table,
-  canvas,
   .performance-top,
-  .top-section,
   .actions{
-    min-width: max-content;
+    min-width:max-content;
   }
 
-  /* biar chart tidak gepeng */
-  .funnel-card canvas,
-  .analysis-card canvas,
-  .contribution-card canvas,
-  .performance-card canvas{
-    min-width: 500px;
-  }
-
-  /* teks panjang tidak turun brutal */
+  /* note jangan turun */
   .warning-box span,
   .performance-note p{
-    white-space: nowrap;
+    white-space:nowrap;
   }
 
 }
