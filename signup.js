@@ -47,7 +47,7 @@ document.getElementById("signupBtn").addEventListener("click", async function (e
     alert("Gagal mendaftar: " + error.message);
   } else {
     alert("Berhasil mendaftar! Silakan Sign In.");
-    window.location.href = "../login.html"; // Balik ke halaman login
+    window.location.href = "login.html"; // Balik ke halaman login
   }
 });
 
