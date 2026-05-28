@@ -17,7 +17,7 @@ document.getElementById("loginBtn").addEventListener("click", async function (e)
     return;
   }
 
-  // TEMBAK API SUPABASE UNTUK LOGIN (Ini bagian yang kurang)
+  // TEMBAK API SUPABASE UNTUK LOGIN
   const { data, error } = await supabase.auth.signInWithPassword({
     email: username, // Supabase Auth butuh format email, jadi nilai 'username' lu masukin ke sini
     password: password,
@@ -28,9 +28,9 @@ document.getElementById("loginBtn").addEventListener("click", async function (e)
     // Kalau salah password atau akun tidak ditemukan
     alert("Login gagal: " + error.message);
   } else {
-    // Kalau berhasil diverifikasi oleh database
+    // Kalau berhasil diverifikasi oleh database - Perbaikan path ke /dashboard
     alert("Login sukses! Mengalihkan...");
-    window.location.href = "../dashboard/dashboard.html";
+    window.location.href = "/dashboard";
   }
 
 });
