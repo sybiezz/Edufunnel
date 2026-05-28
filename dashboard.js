@@ -142,7 +142,7 @@ function updateChartsAndCards(filteredData) {
   // ==========================================
   // LOGIKA BARU: HITUNG BEST TRAFFIC SOURCE DINAMIS
   // ==========================================
-  // Hitung persentase sukses (berkuliah) dari masing-masing sumber
+  // Variabel ini dideklarasikan di sini HANYA SEKALI untuk dipakai di semua grafik & tabel
   const igTotal = igRows.filter(r => r.pengunjung == 1).length;
   const igSuccess = igRows.filter(r => r.berkuliah == 1).length;
   const igConv = igTotal ? (igSuccess / igTotal * 100) : 0;
@@ -165,7 +165,6 @@ function updateChartsAndCards(filteredData) {
       bestSourceLabel.innerText = "-";
       bestSourceRate.innerText = "0%";
     } else {
-      // Kalau hasilnya seri
       bestSourceLabel.innerText = "IG & TIKTOK";
       bestSourceRate.innerText = igConv.toFixed(2) + "%";
     }
@@ -175,7 +174,6 @@ function updateChartsAndCards(filteredData) {
   // ==========================================
   // LOGIKA BARU: HITUNG GROWTH DINAMIS BERDASARKAN TAHUN
   // ==========================================
-  // 1. Saring data mentah berdasarkan dropdown trafik (Instagram/TikTok/All)
   let growthData = [...allRawData];
   const currentSource = document.getElementById('sourceFilter')?.value.toLowerCase();
   
@@ -187,26 +185,20 @@ function updateChartsAndCards(filteredData) {
     }
   }
 
-  // 2. Deteksi Tahun yang sedang dipilih di Dropdown
   const selectedYearStr = document.getElementById('yearFilter')?.value;
-  let targetYear = 2025; // Default jika yang dipilih adalah "All" atau kosong
+  let targetYear = 2025; 
   
   if (selectedYearStr && selectedYearStr !== "all") {
-    targetYear = parseInt(selectedYearStr); // Ubah teks dropdown "2024" atau "2025" jadi angka
+    targetYear = parseInt(selectedYearStr); 
   }
 
-  // 3. Ambil total pengunjung tahun terpilih dan tahun sebelumnya
   const currentYearTotal = growthData.filter(row => row.tahun == targetYear).length;
   const prevYearTotal = growthData.filter(row => row.tahun == (targetYear - 1)).length;
-  
   const growthBadge = document.getElementById('visitor-growth');
 
   if (growthBadge) {
-    // Pastikan data tahun sebelumnya ada sebelum dibagi, biar nggak error (dibagi nol)
     if (prevYearTotal > 0) {
-      // Rumus: ((Tahun Ini - Tahun Lalu) / Tahun Lalu) * 100
       const calcGrowth = (((currentYearTotal - prevYearTotal) / prevYearTotal) * 100).toFixed(1);
-      
       if (calcGrowth >= 0) {
         growthBadge.innerText = `↗ ${calcGrowth}%`;
         growthBadge.style.setProperty('background-color', '#e6fbd9', 'important'); 
@@ -217,7 +209,6 @@ function updateChartsAndCards(filteredData) {
         growthBadge.style.setProperty('color', '#d32f2f', 'important');           
       }
     } else {
-      // Kalau data tahun sebelumnya kosong di database (misal lu pilih 2024, tapi data 2023 ga ada)
       growthBadge.innerText = "-";
       growthBadge.style.setProperty('background-color', '#f5f0fa', 'important');
       growthBadge.style.setProperty('color', '#999', 'important');
@@ -226,6 +217,7 @@ function updateChartsAndCards(filteredData) {
   // ==========================================
 
   // --- B. TEKNIK MEMETAKAN DATA (MAPPING JSON TO STAGES) ---
+  // HANYA ADA 1 BLOK SEKARANG (Tidak dobel)
   const stage1Count = filteredData.filter(r => r.pengunjung == 1).length;
   const stage2Count = filteredData.filter(r => r.ingin_daftar == 1).length;
   const stage3Count = filteredData.filter(r => r.interview == 1).length;
@@ -235,16 +227,6 @@ function updateChartsAndCards(filteredData) {
   const pctFunnel5 = stage1Count ? ((stage5Count / stage1Count) * 100).toFixed(1) : 0;
   document.getElementById('avg-conversion').innerText = `${pctFunnel5}%`;
 
-  // Hitung Rasio Transisi untuk chart analisis kanan
-  const trans1_2 = stage1Count ? ((stage2Count / stage1Count) * 100).toFixed(1) : 0;
-  const trans2_3 = stage2Count ? ((stage3Count / stage2Count) * 100).toFixed(1) : 0;
-  const trans3_4 = stage3Count ? ((stage4Count / stage3Count) * 100).toFixed(1) : 0;
-  const trans4_5 = stage4Count ? ((stage5Count / stage4Count) * 100).toFixed(1) : 0;
-
-  const pctFunnel5 = stage1Count ? ((stage5Count / stage1Count) * 100).toFixed(1) : 0;
-  document.getElementById('avg-conversion').innerText = `${pctFunnel5}%`;
-
-  // Hitung Rasio Transisi untuk chart analisis kanan
   const trans1_2 = stage1Count ? ((stage2Count / stage1Count) * 100).toFixed(1) : 0;
   const trans2_3 = stage2Count ? ((stage3Count / stage2Count) * 100).toFixed(1) : 0;
   const trans3_4 = stage3Count ? ((stage4Count / stage3Count) * 100).toFixed(1) : 0;
@@ -301,7 +283,7 @@ function updateChartsAndCards(filteredData) {
         },
         scales: {
           x: { grid: { display: false }, beginAtZero: true },
-          y: { grid: { display: false }, ticks: { font: { family: "'Poppins', sans-serif", size: 13, weight: '500' }, color: '#333' } }
+          y: { grid: { display: false }, ticks: { font: { family: "'SF Pro Display', sans-serif", size: 13, weight: '500' }, color: '#333' } }
         }
       },
       plugins: [{
@@ -346,10 +328,6 @@ function updateChartsAndCards(filteredData) {
     const conversionData = [c1, c2, c3, c4];
     const attritionData = [parseFloat(a1), parseFloat(a2), parseFloat(a3), parseFloat(a4)];
 
-    // ==========================================================
-    // LOGIKA AUTO-DETECT WORST DROP-OFF PER STAGE
-    // ==========================================================
-    // " Algoritma khusus menggunakan perulangan (looping) untuk mencari indeks array dengan nilai attrition (kegagalan) tertinggi secara otomatis."
     const worstTextElement = document.getElementById('worst-dropoff-text');
     if (worstTextElement) {
       const stageNames = [
@@ -359,7 +337,6 @@ function updateChartsAndCards(filteredData) {
         "Daftar Ulang → Berkuliah"
       ];
 
-      // Cari indeks dengan nilai attrition (kehilangan calon mahasiswa) tertinggi
       let maxAttritionIndex = 0;
       let maxAttritionValue = attritionData[0];
 
@@ -370,14 +347,12 @@ function updateChartsAndCards(filteredData) {
         }
       }
 
-      // Jika ada data drop-off (tidak 0), tampilkan stage terburuk + nilai persentasenya
       if (maxAttritionValue > 0) {
         worstTextElement.innerText = `${stageNames[maxAttritionIndex]} (${maxAttritionValue}%)`;
       } else {
         worstTextElement.innerText = "Tidak ada drop-off terdeteksi";
       }
     }
-    // ==========================================================
 
     const subLabels = [
       "(Iklan to Ingin Mendaftar)",
@@ -472,16 +447,13 @@ function updateChartsAndCards(filteredData) {
     });
   }
 
-// --- E. RENDER DOUGHNUT CHART ---
+  // --- E. RENDER DOUGHNUT CHART ---
   const ctxDonut = document.getElementById('contributionDonutChartCanvas');
   if (ctxDonut) {
     if (conversionChartInstance) conversionChartInstance.destroy();
-
     const canvasContext = ctxDonut.getContext('2d');
 
-    const igSuccess = filteredData.filter(r => r.sumber_trafik === 'Instagram Ads' && r.berkuliah == 1).length;
-    const ttSuccess = filteredData.filter(r => r.sumber_trafik === 'Tiktok Ads' && r.berkuliah == 1).length;
-
+    // Variabel igSuccess & ttSuccess HAPUS dari sini, karena pakai yang sudah dihitung di Bagian A
     const totalSuccess = igSuccess + ttSuccess;
     const igContribution = totalSuccess ? ((igSuccess / totalSuccess) * 100).toFixed(1) : "0.0";
     const ttContribution = totalSuccess ? ((ttSuccess / totalSuccess) * 100).toFixed(1) : "0.0";
@@ -494,7 +466,6 @@ function updateChartsAndCards(filteredData) {
     donutGradTT.addColorStop(0, '#7048ff'); 
     donutGradTT.addColorStop(1, '#9e85ff'); 
 
-    // DETEKSI LAYAR: Sinkron dengan CSS breakpoint 1100px
     const isMobileLayout = window.innerWidth <= 1100;
 
     conversionChartInstance = new Chart(canvasContext, {
@@ -513,12 +484,10 @@ function updateChartsAndCards(filteredData) {
         responsive: true,
         maintainAspectRatio: false,
         cutout: '50%',
-        // Jika di HP, hapus padding kanan biar chart bisa lebih besar di tengah
         layout: { padding: { top: 10, bottom: 10, left: 10, right: isMobileLayout ? 10 : 100 } },
         plugins: {
           legend: {
             display: true,
-            // Jika di HP teks pindah ke bawah, jika PC di kanan
             position: isMobileLayout ? 'bottom' : 'right',
             align: 'center',
             labels: {
@@ -533,10 +502,8 @@ function updateChartsAndCards(filteredData) {
     });
 
     // --- RE-SINKRONISASI DATATABLE DI SEBELAH KIRI DONUT ---
-    const igTotal = allRawData.filter(r => r.sumber_trafik === 'Instagram Ads' && r.pengunjung == 1).length;
+    // Variabel igTotal & ttTotal HAPUS dari sini, karena pakai yang sudah dihitung di Bagian A
     const igRate = igTotal ? ((igSuccess / igTotal) * 100).toFixed(2) : "0.00";
-
-    const ttTotal = allRawData.filter(r => r.sumber_trafik === 'Tiktok Ads' && r.pengunjung == 1).length;
     const ttRate = ttTotal ? ((ttSuccess / ttTotal) * 100).toFixed(2) : "0.00";
 
     const tableBody = document.getElementById('table-body-stats');
@@ -557,12 +524,12 @@ function updateChartsAndCards(filteredData) {
     scales: {
       x: {
         grid: { display: false },
-        ticks: { font: { family: "'Poppins', sans-serif", size: 13, weight: '600' }, color: '#555' }
+        ticks: { font: { family: "'SF Pro Display', sans-serif", size: 13, weight: '600' }, color: '#555' }
       },
       y: {
         beginAtZero: true,
         grid: { color: '#f5f0fa' },
-        ticks: { font: { family: "'Poppins', sans-serif", size: 11 }, color: '#aaa' }
+        ticks: { font: { family: "'SF Pro Display', sans-serif", size: 11 }, color: '#aaa' }
       }
     },
     plugins: {
@@ -593,9 +560,6 @@ function updateChartsAndCards(filteredData) {
     }
   };
 
-  // ==========================================
-  // LOGIKA BARU: PISAHKAN DATA BERDASARKAN TAHUN
-  // ==========================================
   const data2024 = growthData.filter(r => r.tahun == 2024);
   const data2025 = growthData.filter(r => r.tahun == 2025);
 
@@ -604,7 +568,6 @@ function updateChartsAndCards(filteredData) {
   if (ctx2024) {
     if (perfChart2024) perfChart2024.destroy();
     
-    // Hitung dinamis dari data2024
     const success2024 = data2024.filter(r => r.berkuliah == 1).length;
     const failure2024 = data2024.length - success2024;
 
@@ -629,7 +592,6 @@ function updateChartsAndCards(filteredData) {
   if (ctx2025) {
     if (perfChart2025) perfChart2025.destroy();
 
-    // Hitung dinamis dari data2025
     const success2025 = data2025.filter(r => r.berkuliah == 1).length;
     const failure2025 = data2025.length - success2025;
 
