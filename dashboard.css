@@ -86,8 +86,18 @@ body{
   border-radius:50%;
 }
 
+/* WRAPPER UTAMA DASHBOARD */
+.dashboard-container{
+  width: 100%;
+  display: flex;
+  justify-content: center;
+  padding: 32px 60px; /* jarak kanan kiri */
+}
+
 .dashboard{
-  padding:30px;
+  width: 100%;
+  max-width: 1500px; /* batas lebar desktop */
+  padding: 0;
 }
 
 .top-section{
