@@ -1,24 +1,14 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
-// ==========================================
-// 1. KONEKSI SUPABASE
-// ==========================================
-// "Sama seperti di dashboard, ini adalah setup koneksi ke Supabase menggunakan URL dan API Key agar web bisa berkomunikasi dengan database."
 const supabaseUrl = 'https://afaocnqvmvhkxpomefct.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFmYW9jbnF2bXZoa3hwb21lZmN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1NjE3MDAsImV4cCI6MjA5NDEzNzcwMH0.0on2ooeQbsO2BfTkec3nCL7t-mKcyWd1Z9Xo9htbygg';
 const supabase = createClient(supabaseUrl, supabaseKey);
 
-// WADAH GLOBAL & PENGATURAN PAGINATION
-// "Variabel ini untuk menyimpan data mentah, data yang sedang difilter, dan pengaturan pagination (pembagian halaman) agar tabel tidak terlalu panjang, diset maksimal 15 baris per halaman."
 let allData = [];
 let currentFilteredData = [];
 let currentPage = 1;
 const rowsPerPage = 15;
 
-// ==========================================
-// 2. FITUR FRONT-END (UI/UX)
-// ==========================================
-// "Ini animasi UI/UX menggunakan JavaScript. Saat tombol diekspor atau filter diklik, tombolnya akan mengecil sedikit."
 document.querySelectorAll('.export-btn, .filter-select').forEach(button => {
   button.addEventListener('click', function () {
     this.style.transform = 'scale(0.95)';
@@ -26,16 +16,10 @@ document.querySelectorAll('.export-btn, .filter-select').forEach(button => {
   });
 });
 
-// ==========================================
-// 3. FITUR BACK-END (SUPABASE, FILTER, SEARCH, PAGINATION)
-// ==========================================
-// "Fungsi utama saat halaman List Data dimuat. Tugasnya mengecek sesi login, lalu menarik data pendaftar dari Supabase."
 async function initListData() {
-  // Cek Login
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) { window.location.href = '/login'; return; }
 
-  // --- UBAH PROFIL DINAMIS ---
   const profileName = document.querySelector('.profile span');
   const profileImg = document.querySelector('.profile img');
   
@@ -45,9 +29,7 @@ async function initListData() {
   if (profileImg && user.user_metadata?.avatar_url) {
     profileImg.src = user.user_metadata.avatar_url;
   }
-
-  // Tarik data SEMUA mahasiswa
-  // "Mengambil data dari tabel 'admissions' dan mengurutkannya (order) berdasarkan ID dari yang terkecil (ascending) agar rapi."
+  
   const { data: admissions, error } = await supabase
     .from('admissions')
     .select('*')
@@ -56,11 +38,7 @@ async function initListData() {
   if (error) { console.error("Gagal narik data:", error); return; }
 
   allData = admissions;
-  
-  // Render awal & Setup Filter
   setupFilters(); 
-  
-  // Panggil event change di filter tahun biar langsung nampilin periode 2024 pas baru buka
   const yearFilter = document.getElementById('yearFilter');
   if (yearFilter) {
     const event = new Event('change');
@@ -68,20 +46,17 @@ async function initListData() {
   }
 }
 
-// FUNGSI MENGGAMBAR TABEL DENGAN TANGGAL OTOMATIS
-// "Fungsi ini bertugas menyuntikkan data JSON ke dalam elemen HTML <tbody>. Menggunakan fungsi .slice() untuk memotong array data sesuai halaman pagination saat ini."
 function renderTable(dataToRender) {
   const tbody = document.getElementById('table-body'); 
   if (!tbody) return;
   tbody.innerHTML = ''; 
 
-  // Logika pembagian array untuk Pagination
   const startIndex = (currentPage - 1) * rowsPerPage;
   const endIndex = startIndex + rowsPerPage;
   const paginatedData = dataToRender.slice(startIndex, endIndex); 
 
   paginatedData.forEach((row) => {
-    // "Logika if-else ini mencari status terakhir (tertinggi) dari seorang pendaftar. Jika nilai berkuliah = 1, maka status finalnya adalah Berkuliah."
+    
     let statusText = "Iklan (Ads)";
     let statusClass = "stage-5";
 
@@ -93,13 +68,11 @@ function renderTable(dataToRender) {
     const sourceClass = row.sumber_trafik === "Instagram Ads" ? "instagram" : "tiktok";
     const sourceText = row.sumber_trafik === "Instagram Ads" ? "Instagram" : "TikTok";
 
-    // --- LOGIKA TANGGAL OTOMATIS BERDASARKAN ID & TAHUN ---
     const months = ["Jan", "Feb", "Mar", "Apr", "Mei", "Jun", "Jul", "Ags", "Sep", "Okt", "Nov", "Des"];
     const day = (row.id % 28) + 1; 
     const month = months[row.id % 12];
     const dummyDate = `${day} ${month} ${row.tahun}`; 
 
-    // Inject ke baris HTML
     const tr = document.createElement('tr');
     tr.innerHTML = `
       <td>#AD-${String(row.id).padStart(3, '0')}</td>
@@ -113,8 +86,6 @@ function renderTable(dataToRender) {
   });
 }
 
-// FUNGSI MENGGAMBAR PAGINATION
-// "Fungsi ini menghitung total halaman (Total Data dibagi Batas Baris). Lalu merender tombol angka, Next, dan Prev. Saat tombol diklik, nilai currentPage akan berubah dan tabel dirender ulang."
 function renderPagination(dataToRender) {
   const totalRows = dataToRender.length;
   const totalPages = Math.ceil(totalRows / rowsPerPage);
@@ -170,8 +141,6 @@ function renderPagination(dataToRender) {
   pageNumbersContainer.appendChild(nextBtn);
 }
 
-// FUNGSI MEMBACA FILTER & SEARCH 
-// "Ini adalah fungsi kompleks yang menggabungkan 4 jenis filter sekaligus: Tahun, Trafik, Status, dan fitur Search Bar, menggunakan metode berantai (chaining filter)."
 function setupFilters() {
   const selects = document.querySelectorAll('.filter-select');
   
@@ -183,15 +152,13 @@ function setupFilters() {
   function applyFilter() {
     let filteredData = [...allData]; 
 
-    // 1. Filter Tahun
     if (yearFilter) {
       const selectedYear = yearFilter.value;
       filteredData = filteredData.filter(row => row.tahun == selectedYear);
     }
 
-    // 2. Filter Trafik
     if (sourceFilter) {
-      const sourceValue = sourceFilter.value; // ex: "instagram", "tiktok", "all"
+      const sourceValue = sourceFilter.value;
       if (sourceValue === "instagram") {
         filteredData = filteredData.filter(row => row.sumber_trafik === "Instagram Ads");
       } else if (sourceValue === "tiktok") {
@@ -199,12 +166,10 @@ function setupFilters() {
       }
     }
 
-    // 3. Filter Status Funnel
     if (statusFilter) {
       const statusValue = statusFilter.value; 
       if (statusValue !== "all") {
         filteredData = filteredData.filter(row => {
-          // Cari status paling mentok dari pendaftar tersebut untuk dicocokkan dengan pilihan dropdown
           let highestStatus = "iklan"; 
           if (row.berkuliah == 1) highestStatus = "berkuliah";
           else if (row.daftar_ulang == 1) highestStatus = "daftar_ulang";
@@ -216,8 +181,6 @@ function setupFilters() {
       }
     }
 
-    // 4. Filter Search Text
-    // "Fitur Search ini menggunakan .includes() untuk mencocokkan huruf yang diketik dengan Nama Lengkap atau format ID. Semuanya diubah jadi huruf kecil (toLowerCase) agar tidak case-sensitive."
     if (searchInput) {
       const keyword = searchInput.value.toLowerCase().trim();
       if (keyword !== "") {
@@ -230,12 +193,11 @@ function setupFilters() {
     }
 
     currentFilteredData = filteredData;
-    currentPage = 1; // Balikin ke halaman 1 tiap kali filter berubah
+    currentPage = 1;
     renderTable(currentFilteredData);
     renderPagination(currentFilteredData);
   }
 
-  // Pasang event pendeteksi (Event Listener)
   if (sourceFilter) sourceFilter.addEventListener('change', applyFilter);
   if (statusFilter) statusFilter.addEventListener('change', applyFilter);
   if (yearFilter) yearFilter.addEventListener('change', applyFilter);
@@ -244,7 +206,6 @@ function setupFilters() {
 
 initListData();
 
-// --- FITUR SINKRONISASI PROFIL DI NAVBAR ---
 async function loadNavbarProfile() {
   const { data: { user }, error } = await supabase.auth.getUser();
   
@@ -262,8 +223,6 @@ async function loadNavbarProfile() {
 
 loadNavbarProfile();
 
-// --- FITUR EXPORT REPORT LIST DATA ---
-// "Berbeda dengan dashboard yang menarik dari JSON, ekspor di List Data ini membaca elemen tabel HTML <tr> dan <td>, membersihkan teksnya, dan menyatukannya menjadi file CSV."
 const exportBtnListData = document.querySelector('.export-btn');
 
 if (exportBtnListData) {
@@ -283,8 +242,8 @@ if (exportBtnListData) {
       const rowData = [];
       
       cols.forEach(function(col) {
-        let data = col.innerText.replace(/(\r\n|\n|\r)/gm, "").trim(); // Bersihkan dari spasi / baris baru
-        rowData.push('"' + data + '"'); // Bungkus kutip ganda biar aman jika ada koma di namanya
+        let data = col.innerText.replace(/(\r\n|\n|\r)/gm, "").trim();
+        rowData.push('"' + data + '"');
       });
       
       csvContent += rowData.join(",") + "\r\n";
