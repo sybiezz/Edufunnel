@@ -9,7 +9,8 @@ let base64Avatar = "";
 
 async function loadProfile() {
   const { data: { user }, error } = await supabase.auth.getUser();
-  if (!user || error) { window.location.href = '../login/login.html'; return; }
+  // Perbaikan path ke /login
+  if (!user || error) { window.location.href = '/login'; return; }
 
   const fullName = user.user_metadata?.full_name || 'Admin';
   const avatarUrl = user.user_metadata?.avatar_url || 'https://i.pravatar.cc/150';
@@ -115,7 +116,8 @@ document.getElementById('logoutBtn').addEventListener('click', async function() 
   if (error) {
     alert("Gagal logout: " + error.message);
   } else {
-    window.location.href = '../login/login.html';
+    // Perbaikan path ke /login
+    window.location.href = '/login';
   }
 });
 
