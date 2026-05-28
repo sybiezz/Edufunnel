@@ -1,11 +1,38 @@
+/* ========================================== */
+/* 1. IMPORT FONT SF PRO DISPLAY              */
+/* ========================================== */
+/* Regular (400) */
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('../assets/fonts/SF-Pro-Display-Regular.otf') format('opentype');
+  font-weight: 400;
+  font-style: normal;
+}
+
+/* Semibold (600) */
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('../assets/fonts/SF-Pro-Display-Semibold.otf') format('opentype');
+  font-weight: 600;
+  font-style: normal;
+}
+
+/* Bold (700) */
+@font-face {
+  font-family: 'SF Pro Display';
+  src: url('../assets/fonts/SF-Pro-Display-Bold.otf') format('opentype');
+  font-weight: 700;
+  font-style: normal;
+}
+
 /* ==========================================
-   1. GLOBAL & RESET STYLES
+   2. GLOBAL & RESET STYLES
    ========================================== */
 * {
   margin: 0;
   padding: 0;
   box-sizing: border-box;
-  font-family: 'Poppins', sans-serif;
+  font-family: 'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
 body {
@@ -14,7 +41,7 @@ body {
 }
 
 /* ==========================================
-   2. NAVBAR (SINKRON 100% DENGAN DASHBOARD.CSS)
+   3. NAVBAR (SINKRON 100% DENGAN DASHBOARD.CSS)
    ========================================== */
 .navbar {
   width: 100%;
@@ -47,7 +74,7 @@ body {
 .nav-links a {
   text-decoration: none;
   color: #555;
-  font-weight: 500;       
+  font-weight: 600; /* Update ke semibold biar sinkron */       
   font-size: 16px;        
   padding-bottom: 6px;    
   transition: color 0.2s ease;
@@ -76,13 +103,13 @@ body {
 }
 
 .profile-nav span {
-  font-weight: 700;       /* FIXED SINKRON: Set ke 700 sesuai notes lo biar Bold! */
+  font-weight: 700;       
   font-size: 15px;        
   color: #333;
 }
 
 /* ==========================================
-   3. PROFILE CONTAINER & CARD
+   4. PROFILE CONTAINER & CARD
    ========================================== */
 .profile-container {
   display: flex;
@@ -110,7 +137,7 @@ body {
 }
 
 /* ==========================================
-   4. AVATAR UPLOAD ELEMENT
+   5. AVATAR UPLOAD ELEMENT
    ========================================== */
 .avatar-container {
   position: relative;
@@ -161,8 +188,9 @@ body {
 }
 
 .profile-info p { 
-  font-size: 14px; /* Fixed: Dari 20px dikecilkan ke 14px agar proporsional sebagai sub-text email */
+  font-size: 14px; 
   color: #777; 
+  font-weight: 400;
 }
 
 .divider { 
@@ -173,7 +201,7 @@ body {
 }
 
 /* ==========================================
-   5. FORM INTERFACE ELEMENTS
+   6. FORM INTERFACE ELEMENTS
    ========================================== */
 .form-section h3 { 
   font-size: 20px; 
@@ -186,6 +214,7 @@ body {
   font-size: 13px; 
   color: #888; 
   margin-bottom: 20px; 
+  font-weight: 400;
 }
 
 label { 
@@ -226,6 +255,8 @@ label {
   color: #333; 
   flex: 1; 
   background: transparent;
+  font-family: 'SF Pro Display', sans-serif; /* Pastikan input pakai SF Pro */
+  font-weight: 400;
 }
 
 .toggle-pw { 
@@ -240,7 +271,7 @@ label {
 }
 
 /* ==========================================
-   6. SUBMISSION BUTTONS EFFECT
+   7. SUBMISSION BUTTONS EFFECT
    ========================================== */
 .save-btn {
   width: 100%; 
@@ -293,7 +324,7 @@ label {
 }
 
 /* ==========================================
-   7. RESPONSIVE BREAKPOINTS (MEDIA QUERIES SYSTEM)
+   8. RESPONSIVE BREAKPOINTS (MEDIA QUERIES SYSTEM)
    ========================================== */
 @media screen and (max-width: 1100px) {
   /* Sinkronisasi total susunan Navbar runtuh vertikal */
