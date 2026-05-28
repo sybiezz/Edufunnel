@@ -1,9 +1,5 @@
 import { createClient } from 'https://cdn.jsdelivr.net/npm/@supabase/supabase-js/+esm'
 
-// ==========================================
-// 1. KONEKSI SUPABASE DATABASE
-// ==========================================
-// " Penghubung antara Front-End web dengan Back-End Supabase di cloud. Menggunakan URL endpoint dan Anon Key."
 const supabaseUrl = 'https://afaocnqvmvhkxpomefct.supabase.co';
 const supabaseKey = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImFmYW9jbnF2bXZoa3hwb21lZmN0Iiwicm9sZSI6ImFub24iLCJpYXQiOjE3Nzg1NjE3MDAsImV4cCI6MjA5NDEzNzcwMH0.0on2ooeQbsO2BfTkec3nCL7t-mKcyWd1Z9Xo9htbygg';
 const supabase = createClient(supabaseUrl, supabaseKey);
@@ -15,78 +11,52 @@ let analysisChartInstance = null;
 let perfChart2024 = null;
 let perfChart2025 = null;
 
-// ==========================================
-// 2. INITIALIZATION CONTROLLER
-// ==========================================
-//" Fungsi initDashboard ini otomatis jalan pertama kali web dibuka. Tugasnya mengecek sesi login, sinkronisasi foto profil, dan menarik semua data awal dari tabel admissions."
 async function initDashboard() {
   const { data: { user } } = await supabase.auth.getUser();
   if (!user) { window.location.href = '/login'; return; }
 
-  // Sync Data Profil User di Navbar
   const profileName = document.querySelector('.profile span');
   const profileImg = document.querySelector('.profile img');
   if (profileName && user.user_metadata?.full_name) profileName.innerText = user.user_metadata.full_name;
   if (profileImg && user.user_metadata?.avatar_url) profileImg.src = user.user_metadata.avatar_url;
 
-  // Ambil Data Mentah dari Tabel Supabase
   const { data: admissions, error } = await supabase.from('admissions').select('*');
   if (error) { console.error("Gagal memuat data Supabase:", error); return; }
 
   allRawData = admissions;
 
-  // Event Listeners pada Komponen Dropdown Filter Interaktif
-  // " Ini adalah sensor. Kalau user mengubah dropdown filter tahun atau traffic, sistem akan mendeteksinya dan memanggil fungsi triggerFilterPipeline."
   const sourceFilter = document.getElementById('sourceFilter');
   const yearFilter = document.getElementById('yearFilter');
   
   if (sourceFilter) sourceFilter.addEventListener('change', triggerFilterPipeline);
   if (yearFilter) yearFilter.addEventListener('change', triggerFilterPipeline);
 
-  // Jalankan pipeline penyaringan pertama kali halaman dibuka
   triggerFilterPipeline();
-  
-  // (DINONAKTIFKAN) - Karena sekarang growth dihitung dinamis, bukan ditarik statis.
-  // loadDashboardStats();
 }
 
-
-  // FITUR EKSPOR DATA EXCEL (SINKRON DENGAN LIST DATA)
-  // " Ini fitur untuk mengonversi data JSON dari database menjadi format file Excel (XLSX) menggunakan library SheetsJS, dengan fallback otomatis ke format CSV jika library gagal dimuat."
   const exportBtn = document.querySelector('.export-btn');
   if (exportBtn) {
     exportBtn.addEventListener('click', () => {
-      // Pastikan ada data yang bisa diekspor
       if (!allRawData || allRawData.length === 0) {
         alert("Data mentah kosong, gagal mengekspor report!");
         return;
       }
 
       try {
-        // Cek apakah library XLSX (SheetsJS) sudah ter-load di browser
         if (typeof XLSX !== 'undefined') {
-          // Buat lembar kerja baru dari array data mentah database
           const worksheet = XLSX.utils.json_to_sheet(allRawData);
           const workbook = XLSX.utils.book_new();
           XLSX.utils.book_append_sheet(workbook, worksheet, "Admissions Report");
-          
-          // Cetak dan download otomatis menjadi file excel
           XLSX.writeFile(workbook, "Admissions_Pro_Report.xlsx");
         } else {
-          // Alternatif fallback jika tidak pakai library XLSX: Menggunakan format CSV standar
           let csvContent = "data:text/csv;charset=utf-8,";
-          
-          // Ambil header kolom otomatis dari data object Supabase
           const headers = Object.keys(allRawData[0]).join(",");
           csvContent += headers + "\r\n";
-          
-          // Loop data untuk mengisi baris Excel CSV
           allRawData.forEach(row => {
             const rowData = Object.values(row).map(val => `"${val}"`).join(",");
             csvContent += rowData + "\r\n";
           });
-          
-          // Trigger download link bayangan di DOM browser
+
           const encodedUri = encodeURI(csvContent);
           const link = document.createElement("a");
           link.setAttribute("href", encodedUri);
@@ -102,18 +72,13 @@ async function initDashboard() {
     });
   }
 
-// Pipeline utama penyaringan objek JSON sebelum dikirim ke kanvas grafik
-// "Ini adalah fungsi filtering utama. Cara kerjanya menggunakan metode array .filter() dari JavaScript murni untuk menyaring data berdasarkan pilihan dropdown, lalu dikirim ke fungsi pembuat grafik."
 function triggerFilterPipeline() {
   let filteredArray = [...allRawData];
-
-  // Saring objek JSON berdasarkan Dropdown Tahun
   const yearVal = document.getElementById('yearFilter')?.value;
   if (yearVal) {
     filteredArray = filteredArray.filter(row => row.tahun == yearVal);
   }
 
-  // Saring objek JSON berdasarkan Dropdown Sumber Trafik
   const sourceVal = document.getElementById('sourceFilter')?.value.toLowerCase();
   if (sourceVal && sourceVal !== "all") {
     if (sourceVal === "instagram") {
@@ -126,11 +91,7 @@ function triggerFilterPipeline() {
   updateChartsAndCards(filteredArray);
 }
 
-// ==========================================================
-// 3. FUNGSI LOGIKA INTI: updateChart (TUGAS FRONT END & SE)
-// ==========================================================
 function updateChartsAndCards(filteredData) {
-  // --- A. HITUNG METRICS UTAMA (CARDS) ---
   const totalVisitors = filteredData.length;
   const igRows = filteredData.filter(row => row.sumber_trafik === 'Instagram Ads');
   const tiktokRows = filteredData.filter(row => row.sumber_trafik === 'Tiktok Ads');
@@ -138,11 +99,7 @@ function updateChartsAndCards(filteredData) {
   document.getElementById('visitor-count').innerText = totalVisitors;
   document.getElementById('ig-visitors').innerText = igRows.length;
   document.getElementById('tiktok-visitors').innerText = tiktokRows.length;
-
-  // ==========================================
-  // LOGIKA BARU: HITUNG BEST TRAFFIC SOURCE DINAMIS
-  // ==========================================
-  // Variabel ini dideklarasikan di sini HANYA SEKALI untuk dipakai di semua grafik & tabel
+  
   const igTotal = igRows.filter(r => r.pengunjung == 1).length;
   const igSuccess = igRows.filter(r => r.berkuliah == 1).length;
   const igConv = igTotal ? (igSuccess / igTotal * 100) : 0;
@@ -169,11 +126,7 @@ function updateChartsAndCards(filteredData) {
       bestSourceRate.innerText = igConv.toFixed(2) + "%";
     }
   }
-  // ==========================================
-
-  // ==========================================
-  // LOGIKA BARU: HITUNG GROWTH DINAMIS BERDASARKAN TAHUN
-  // ==========================================
+  
   let growthData = [...allRawData];
   const currentSource = document.getElementById('sourceFilter')?.value.toLowerCase();
   
@@ -214,10 +167,7 @@ function updateChartsAndCards(filteredData) {
       growthBadge.style.setProperty('color', '#999', 'important');
     }
   }
-  // ==========================================
-
-  // --- B. TEKNIK MEMETAKAN DATA (MAPPING JSON TO STAGES) ---
-  // HANYA ADA 1 BLOK SEKARANG (Tidak dobel)
+  
   const stage1Count = filteredData.filter(r => r.pengunjung == 1).length;
   const stage2Count = filteredData.filter(r => r.ingin_daftar == 1).length;
   const stage3Count = filteredData.filter(r => r.interview == 1).length;
@@ -232,7 +182,6 @@ function updateChartsAndCards(filteredData) {
   const trans3_4 = stage3Count ? ((stage4Count / stage3Count) * 100).toFixed(1) : 0;
   const trans4_5 = stage4Count ? ((stage5Count / stage4Count) * 100).toFixed(1) : 0;
 
-  // --- C. RENDER DIAGRAM FUNNEL PREMIUM ---
   const ctxFunnel = document.getElementById('funnelChartCanvas');
   if (ctxFunnel) {
     if (funnelChartInstance) funnelChartInstance.destroy(); 
@@ -307,8 +256,7 @@ function updateChartsAndCards(filteredData) {
       }]
     });
   }
-
-  // --- D. RENDER CANVAS KANAN (CONVERSION & ATTRITION ANALYSIS STACKED) ---
+  
   const ctxAnalysis = document.getElementById('analysisBarChartCanvas');
   if (ctxAnalysis) {
     if (analysisChartInstance) analysisChartInstance.destroy(); 
@@ -447,13 +395,11 @@ function updateChartsAndCards(filteredData) {
     });
   }
 
-  // --- E. RENDER DOUGHNUT CHART ---
   const ctxDonut = document.getElementById('contributionDonutChartCanvas');
   if (ctxDonut) {
     if (conversionChartInstance) conversionChartInstance.destroy();
     const canvasContext = ctxDonut.getContext('2d');
 
-    // Variabel igSuccess & ttSuccess HAPUS dari sini, karena pakai yang sudah dihitung di Bagian A
     const totalSuccess = igSuccess + ttSuccess;
     const igContribution = totalSuccess ? ((igSuccess / totalSuccess) * 100).toFixed(1) : "0.0";
     const ttContribution = totalSuccess ? ((ttSuccess / totalSuccess) * 100).toFixed(1) : "0.0";
@@ -500,9 +446,7 @@ function updateChartsAndCards(filteredData) {
         }
       }
     });
-
-    // --- RE-SINKRONISASI DATATABLE DI SEBELAH KIRI DONUT ---
-    // Variabel igTotal & ttTotal HAPUS dari sini, karena pakai yang sudah dihitung di Bagian A
+    
     const igRate = igTotal ? ((igSuccess / igTotal) * 100).toFixed(2) : "0.00";
     const ttRate = ttTotal ? ((ttSuccess / ttTotal) * 100).toFixed(2) : "0.00";
 
@@ -516,7 +460,6 @@ function updateChartsAndCards(filteredData) {
     }
   }
 
-  // --- F. RENDER CANVAS PERFORMANCE 2024 & 2025 ---
   const sharedChartOptions = {
     responsive: true,
     maintainAspectRatio: false,
@@ -563,7 +506,6 @@ function updateChartsAndCards(filteredData) {
   const data2024 = growthData.filter(r => r.tahun == 2024);
   const data2025 = growthData.filter(r => r.tahun == 2025);
 
-  // 1. CHART TAHUN 2024
   const ctx2024 = document.getElementById('perfChartCanvas2024');
   if (ctx2024) {
     if (perfChart2024) perfChart2024.destroy();
@@ -587,7 +529,6 @@ function updateChartsAndCards(filteredData) {
     });
   }
 
-  // 2. CHART TAHUN 2025
   const ctx2025 = document.getElementById('perfChartCanvas2025');
   if (ctx2025) {
     if (perfChart2025) perfChart2025.destroy();
