@@ -553,5 +553,4 @@ function updateChartsAndCards(filteredData) {
   }
 }
 
-// Jalankan inisialisasi awal modul
 initDashboard();
