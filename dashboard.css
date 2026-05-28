@@ -24,6 +24,7 @@
   margin:0;
   padding:0;
   box-sizing:border-box;
+  min-width:0;
   font-family:'SF Pro Display', -apple-system, BlinkMacSystemFont, sans-serif;
 }
 
@@ -91,7 +92,8 @@ body{
   width: 100%;
   display: flex;
   justify-content: center;
-  padding: 32px 60px; /* jarak kanan kiri */
+  padding: 32px 60px;
+  overflow-x: hidden;
 }
 
 .dashboard{
@@ -227,6 +229,7 @@ body{
   grid-template-columns:2fr 1fr;
   gap:20px;
   margin-bottom:24px;
+  min-width: 0;
 }
 
 .bottom-grid{
@@ -621,4 +624,55 @@ body{
 
 canvas {
   animation: fadeInChart 0.6s ease-out;
+}
+
+/* ==========================================================
+   MOBILE FULL WIDTH + HORIZONTAL SCROLL FIX
+   ========================================================== */
+@media screen and (max-width: 768px){
+
+  /* dashboard full layar HP */
+  .dashboard-container{
+    padding: 0;
+  }
+
+  .dashboard{
+    width: 100%;
+  }
+
+  /* semua card bisa discroll horizontal jika isi kepanjangan */
+  .stat-card,
+  .funnel-card,
+  .analysis-card,
+  .table-card,
+  .contribution-card,
+  .performance-card{
+    overflow-x: auto;
+    overflow-y: hidden;
+    -webkit-overflow-scrolling: touch;
+  }
+
+  /* cegah text nabrak */
+  table,
+  canvas,
+  .performance-top,
+  .top-section,
+  .actions{
+    min-width: max-content;
+  }
+
+  /* biar chart tidak gepeng */
+  .funnel-card canvas,
+  .analysis-card canvas,
+  .contribution-card canvas,
+  .performance-card canvas{
+    min-width: 500px;
+  }
+
+  /* teks panjang tidak turun brutal */
+  .warning-box span,
+  .performance-note p{
+    white-space: nowrap;
+  }
+
 }
