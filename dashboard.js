@@ -21,7 +21,7 @@ let perfChart2025 = null;
 //" Fungsi initDashboard ini otomatis jalan pertama kali web dibuka. Tugasnya mengecek sesi login, sinkronisasi foto profil, dan menarik semua data awal dari tabel admissions."
 async function initDashboard() {
   const { data: { user } } = await supabase.auth.getUser();
-  if (!user) { window.location.href = '../login/login.html'; return; }
+  if (!user) { window.location.href = '../login.html'; return; }
 
   // Sync Data Profil User di Navbar
   const profileName = document.querySelector('.profile span');
