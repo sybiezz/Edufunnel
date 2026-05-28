@@ -41,7 +41,7 @@ document.getElementById("loginBtn").addEventListener("click", async function (e)
   } else {
     // Kalau berhasil diverifikasi oleh database
     alert("Login sukses! Mengalihkan...");
-    window.location.href = "../dashboard.html";
+    window.location.href = "dashboard.html";
   }
 
 });
