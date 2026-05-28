@@ -1,8 +1,3 @@
-/* ========================================== */
-/* 1. IMPORT FONT SF PRO DISPLAY              */
-/* ========================================== */
-
-/* Regular (400) */
 @font-face {
   font-family: 'SF Pro Display';
   src: url('SF-Pro-Display-Regular.otf') format('opentype');
@@ -10,7 +5,6 @@
   font-style: normal;
 }
 
-/* Semibold (600) */
 @font-face {
   font-family: 'SF Pro Display';
   src: url('SF-Pro-Display-Semibold.otf') format('opentype');
@@ -18,7 +12,6 @@
   font-style: normal;
 }
 
-/* Bold (700) */
 @font-face {
   font-family: 'SF Pro Display';
   src: url('SF-Pro-Display-Bold.otf') format('opentype');
@@ -26,9 +19,6 @@
   font-style: normal;
 }
 
-/* ========================================== */
-/* 2. GLOBAL STYLES                           */
-/* ========================================== */
 * {
   margin: 0;
   padding: 0;
@@ -43,7 +33,6 @@ body {
   background-position: bottom center;
   background-size: cover;
   min-height: 100vh;
-  /* overflow: hidden; Dihapus agar form bisa di-scroll kalau dibuka di layar HP yang pendek */
 }
 
 .container {
@@ -54,10 +43,9 @@ body {
   flex-direction: column;
   align-items: center;
   justify-content: center;
-  padding: 20px; /* Tambahan padding agar saat di HP card tidak mentok ke pinggir layar */
+  padding: 20px;
 }
 
-/* TOP LOGO */
 .top-logo {
   text-align: center;
   margin-bottom: 20px;
@@ -94,13 +82,10 @@ body {
   font-weight: 600;
 }
 
-/* ========================================== */
-/* 3. CARD CONTAINER (2 KOLOM RESPONSIVE)     */
-/* ========================================== */
 .login-card {
-  width: 100% !important;             /* (RESPONSIVE FIX) Memenuhi ruang yang tersedia */
-  max-width: 900px !important;        /* (RESPONSIVE FIX) Tapi mentok di 900px kalau dibuka di laptop */
-  min-height: 550px !important;       /* Ubah height jadi min-height agar bisa memanjang otomatis ke bawah kalau formnya nambah */
+  width: 100% !important;
+  max-width: 900px !important;
+  min-height: 550px !important;
   background: white;
   border-radius: 26px;
   box-shadow: 0 10px 35px rgba(0,0,0,0.05);
@@ -109,7 +94,6 @@ body {
   overflow: hidden !important; 
 }
 
-/* KOLOM KIRI: FORM */
 .left-content {
   width: 50% !important; 
   padding: 40px 50px;
@@ -137,7 +121,7 @@ body {
 label {
   display: block;
   font-size: 12px;
-  font-weight: 600; /* Update ke semibold */
+  font-weight: 600;
   margin-bottom: 6px;
   color: #3c3c3c;
 }
@@ -178,7 +162,6 @@ label {
   color: #b5b5b5;
 }
 
-/* BUTTON */
 .signin-btn {
   width: 100%;
   height: 46px;
@@ -187,7 +170,7 @@ label {
   background: linear-gradient(to right, #6546d8, #d9387f);
   color: white;
   font-size: 14px;
-  font-weight: 600; /* Update ke semibold */
+  font-weight: 600;
   cursor: pointer;
   margin-top: 10px;
   transition: transform 0.2s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.3s;
@@ -199,7 +182,7 @@ label {
 }
 
 .signin-btn:active {
-  transform: scale(0.97); /* Micro interaction klik */
+  transform: scale(0.97);
 }
 
 .signin-link {
@@ -216,7 +199,6 @@ label {
   font-weight: 600;
 }
 
-/* KOLOM KANAN: ILUSTRASI */
 .right-content {
   width: 50% !important; 
   background: linear-gradient(135deg, #6546d8 0%, #d9387f 100%); 
@@ -276,9 +258,8 @@ label {
   font-weight: 400;
 }
 
-/* --- FITUR SHOW/HIDE PASSWORD --- */
 .input-box input {
-  flex: 1; /* Ngedorong ikon mata ke ujung kanan */
+  flex: 1;
 }
 
 .toggle-pw {
@@ -293,23 +274,19 @@ label {
   color: #c2185b !important;
 }
 
-/* ========================================== */
-/* 4. RESPONSIVE MOBILE BREAKPOINT            */
-/* ========================================== */
-/* [BUAT PRESENTASI]: "Ini adalah strategi responsif untuk form 2 kolom. Jika dideteksi layar berukuran kecil (HP), saya mematikan kolom ilustrasi kanan (display: none), sehingga pengguna HP bisa langsung fokus ke form pengisian tanpa harus scroll panjang." */
 @media screen and (max-width: 768px) {
   .login-card {
-    flex-direction: column !important; /* Ubah susunan jadi atas-bawah */
+    flex-direction: column !important;
     max-width: 500px !important;
   }
   
   .left-content {
-    width: 100% !important; /* Form ngambil full lebar card */
+    width: 100% !important;
     padding: 40px 24px;
   }
   
   .right-content {
-    display: none !important; /* Sembunyikan banner ungu di HP biar clean */
+    display: none !important;
   }
 
   .left-content h2 {
